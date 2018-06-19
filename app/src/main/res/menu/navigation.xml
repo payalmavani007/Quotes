@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_category"
+        android:icon="@drawable/cate"
+        android:title="Category" />
+
+    <item
+        android:id="@+id/navigation_author"
+        android:icon="@drawable/auth"
+        android:title="Author" />
+    <item
+        android:id="@+id/navigation_userlogin"
+        android:icon="@drawable/userlogin"
+        android:title="User Login" />
+
+
+</menu>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ListView
+
+        android:layout_weight="1"
+        android:id="@+id/lv"
+
+        android:dividerHeight="4dip"
+        android:background="@drawable/line_divider"
+        android:divider="@color/colorwhite"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"/>
+
+</LinearLayout>
