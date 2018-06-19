@@ -37,7 +37,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class UserLoginFragment extends Fragment {
     EditText edt_email;
-    Button btn_login;
+    Button  btn_login;
     TextView txt_reghere;
     TextInputEditText  edt_password;
     FragmentManager fragmentManager;
