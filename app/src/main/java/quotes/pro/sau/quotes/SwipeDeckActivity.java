@@ -58,7 +58,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
     ApiInterface apiService;
     ArrayList<String> newData;
     String mImageUrl;
-    ImageView imageView;
+    ImageView imageViewShare;
     LinearLayout download1,copy;
     String mCategoryId;
     private SwipeDeck cardStack;
@@ -80,34 +80,8 @@ public class SwipeDeckActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_deck);
         cardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
-        imageView = findViewById(R.id.share);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        imageViewShare = findViewById(R.id.share);
 
-               /* Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                Uri screenshotUri = Uri.parse(MediaStore.Images.Media.EXTERNAL_CONTENT_URI + "/Quotes" );
-
-                sharingIntent.setType("image/jpeg");
-                sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                startActivity(Intent.createChooser(sharingIntent, "Share image using"));*/
-
-              //  startShare();
-
-                String fileName = "Abc.png";
-                String externalStorageDirectory = Environment.getExternalStorageDirectory().toString();
-                String myDir = externalStorageDirectory + "/Quotes/"; // the file will be in saved_images
-                Uri uri = Uri.parse("file:///" + myDir + fileName);
-                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                shareIntent.setType("image/*");
-                Log.e("path","sjfgsdfgas"+ uri);
-
-                shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Test Mail");
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Quotes Images");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                startActivity(Intent.createChooser(shareIntent, "Share Deal"));
-            }
-        });
 
 
         cardStack.setHardwareAccelerationEnabled(true);
@@ -154,6 +128,8 @@ public class SwipeDeckActivity extends AppCompatActivity {
                 SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context);
                 cardStack.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+
+
             }
 
             @Override
@@ -194,9 +170,9 @@ public class SwipeDeckActivity extends AppCompatActivity {
         layout.setDrawingCacheEnabled(false);
         return bmp;
     }
-    private void saveChart(Bitmap getbitmap, float height, float width) {
+    private void saveChart(Bitmap getbitmap, float height, float width,String name) {
 
-
+        Log.e(TAG, "name: " + " http://192.168.1.200/quotesmanagement/public/uploads/" + name);
         root = Environment.getExternalStorageDirectory().toString();
         folder = new File(root + "/Quotes");
         boolean success = false;
@@ -207,7 +183,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
         }
          timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss",
                 Locale.getDefault()).format(new Date());
-         file = new File(folder.getPath() + File.separator +timeStamp+".png");
+         file = new File(folder.getPath() + File.separator +name+".png");
 
         if ( !file.exists() )
         {
@@ -309,10 +285,38 @@ public class SwipeDeckActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                      bitmap = getBitmap(linearLayout);
-                    saveChart(bitmap, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth());
+                    saveChart(bitmap, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(),data.get(position).getQuotes_image());
                 }
             });
 
+            imageViewShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+               /* Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                Uri screenshotUri = Uri.parse(MediaStore.Images.Media.EXTERNAL_CONTENT_URI + "/Quotes" );
+
+                sharingIntent.setType("image/jpeg");
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                startActivity(Intent.createChooser(sharingIntent, "Share image using"));*/
+
+                    Bitmap bitmap1 = getBitmap(linearLayout);
+                    saveChart(bitmap1, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(),data.get(position).getQuotes_image());
+
+                    String fileName = data.get(position).getQuotes_image()+".png";
+                    String externalStorageDirectory = Environment.getExternalStorageDirectory().toString();
+                    String myDir = externalStorageDirectory + "/Quotes/"; // the file will be in saved_images
+                    Uri uri = Uri.parse("file:///" + myDir + fileName);
+                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    shareIntent.setType("image/*");
+                    Log.e("path","sjfgsdfgas"+ uri);
+
+                    shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Test Mail");
+                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Quotes Images");
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                    startActivity(Intent.createChooser(shareIntent, "Share Deal"));
+                }
+            });
             return v;
         }
 
