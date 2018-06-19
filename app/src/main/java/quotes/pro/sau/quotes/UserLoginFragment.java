@@ -39,7 +39,7 @@ public class UserLoginFragment extends Fragment {
     EditText edt_email;
     Button btn_login;
     TextView txt_reghere;
-    TextInputEditText edt_password;
+    TextInputEditText  edt_password;
     FragmentManager fragmentManager;
 
     @Override
