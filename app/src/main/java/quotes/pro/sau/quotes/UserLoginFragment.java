@@ -12,6 +12,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -47,6 +50,7 @@ public class UserLoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_user_login, container, false);
         edt_email = view.findViewById(R.id.email);
+        setHasOptionsMenu(true);
         edt_password = view.findViewById(R.id.password);
         txt_reghere = view.findViewById(R.id.register_here);
         txt_reghere.setPaintFlags(txt_reghere.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -138,4 +142,35 @@ public class UserLoginFragment extends Fragment {
         return  view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.settings, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+
+        if (!getContext().getSharedPreferences("status", MODE_PRIVATE).contains("id"))
+       menu.clear();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.logout) {
+            //       editor.clear().apply();
+            Log.e("sdbnfvids", "vfszdjkhv");
+            SharedPreferences preferences = getContext().getSharedPreferences("status", MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear().apply();
+            FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
+            Fragment fragment2 = new UserLoginFragment();
+            fragmentTransaction1.replace(R.id.fragment_container, new UserLoginFragment()).commit();
+
+            return true;
+            // add your action here that you want
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -89,7 +89,7 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
         return false;
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings, menu);
@@ -97,8 +97,8 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
         return true;
     }
 
-    /*  SharedPreferences preferences = getApplicationContext().getSharedPreferences("status", MODE_PRIVATE);
-      SharedPreferences.Editor editor = preferences.edit();*/
+    *//*  SharedPreferences preferences = getApplicationContext().getSharedPreferences("status", MODE_PRIVATE);
+      SharedPreferences.Editor editor = preferences.edit();*//*
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -123,7 +123,7 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
 
         return super.onOptionsItemSelected(item);
     }
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +132,8 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         navigation.setSelectedItemId(R.id.navigation_home);
+
+
         /*fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
