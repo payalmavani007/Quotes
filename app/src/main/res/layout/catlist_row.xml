@@ -21,10 +21,13 @@
         <TextView
             android:id="@+id/cattext"
             android:layout_width="110dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_below="@id/catbcgrnd_img"
             android:gravity="center"
             android:background="#D8000000"
+            android:text="abc"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:textColor="#FFFFFF"
             android:textSize="15dp" />
     </RelativeLayout>

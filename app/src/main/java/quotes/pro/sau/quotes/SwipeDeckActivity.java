@@ -129,11 +129,11 @@ public class SwipeDeckActivity extends AppCompatActivity {
                 cardStack.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
-
             }
 
             @Override
-            public void onFailure(Call<SelectCategoryDataModel> call, Throwable t) {
+            public void onFailure(Call<SelectCategoryDataModel> call, Throwable t)
+            {
 
             }
         });
@@ -147,8 +147,6 @@ public class SwipeDeckActivity extends AppCompatActivity {
         intent.setType("image/jpge");
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-
-
 
         File file = new File(Environment.getExternalStorageDirectory()+ "/Quotes" +  "Abc.png");
         try {
@@ -208,7 +206,8 @@ public class SwipeDeckActivity extends AppCompatActivity {
                     new Rect(0,0,well.getWidth(),well.getHeight()),
                     new Rect(0,0,(int) width, (int) height), null);
 
-            if(save == null) {
+            if(save == null)
+            {
                 System.out.println(NULL);
             }
             save.compress(Bitmap.CompressFormat.PNG, 100, ostream);
@@ -222,7 +221,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
         }
-        Toast.makeText(this, "Download Successfull.", Toast.LENGTH_SHORT).show();
+
 
     }
     public class SwipeDeckAdapter extends BaseAdapter {
