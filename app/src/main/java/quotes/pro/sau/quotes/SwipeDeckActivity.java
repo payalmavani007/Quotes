@@ -186,7 +186,8 @@ public class SwipeDeckActivity extends AppCompatActivity {
         }
     }
 */
-    public Bitmap getBitmap(RelativeLayout layout){
+    public Bitmap getBitmap(RelativeLayout layout)
+    {
         layout.setDrawingCacheEnabled(true);
         layout.buildDrawingCache();
         Bitmap bmp = Bitmap.createBitmap(layout.getDrawingCache());

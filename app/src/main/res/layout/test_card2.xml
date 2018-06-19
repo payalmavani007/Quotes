@@ -6,21 +6,20 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center_horizontal"
-    android:layout_margin="10dp"
+
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="5dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
 
         android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/relative1"
             android:layout_width="match_parent"
-            android:layout_height="320dp">
+            android:layout_height="333dp">
 
             <ImageView
                 android:id="@+id/img_preview"
@@ -46,7 +45,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#8c000000"
+            android:background="@color/colorBlack"
             android:orientation="horizontal"
             android:weightSum="2">
 
