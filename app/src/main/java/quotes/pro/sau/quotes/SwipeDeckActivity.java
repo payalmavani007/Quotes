@@ -94,7 +94,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
 
               //  startShare();
 
-                String fileName = "";
+                String fileName = "Abc.png";
                 String externalStorageDirectory = Environment.getExternalStorageDirectory().toString();
                 String myDir = externalStorageDirectory + "/Quotes/"; // the file will be in saved_images
                 Uri uri = Uri.parse("file:///" + myDir + fileName);
