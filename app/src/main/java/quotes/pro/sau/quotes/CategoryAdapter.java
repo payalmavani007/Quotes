@@ -59,9 +59,15 @@ class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
                         FragmentTransaction ft = fragmentManager.beginTransaction();
                         Bundle b = new Bundle();
                         b.putString("name", o.getString("id"));
+                        b.putString("category_name",o.getString("category_name"));
                         CategoryListFragment featureImageGrid = new CategoryListFragment();
                         featureImageGrid.setArguments(b);
                         ft.replace(R.id.fragment_container, featureImageGrid).addToBackStack("tag").commit();
+                       /* int count = fragmentManager.getBackStackEntryCount();
+                        for(int i = 0; i < count; ++i) {
+                            fragmentManager.popBackStack();
+                        }*/
+                       /* fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);*/
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

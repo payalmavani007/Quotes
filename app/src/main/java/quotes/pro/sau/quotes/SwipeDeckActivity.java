@@ -26,12 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.github.clans.fab.FloatingActionButton;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import quotes.pro.sau.quotes.model.SelectCategoryDataModel;
 import quotes.pro.sau.quotes.retrofit.ApiClient;
 import quotes.pro.sau.quotes.retrofit.ApiInterface;
@@ -81,13 +76,8 @@ public class SwipeDeckActivity extends AppCompatActivity {
         setContentView(R.layout.activity_swipe_deck);
         cardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
         imageViewShare = findViewById(R.id.share);
-
-
-
         cardStack.setHardwareAccelerationEnabled(true);
-
         apiService = ApiClient.getClient().create(ApiInterface.class);
-
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         mCategoryId = extras.getString("id");
@@ -105,7 +95,25 @@ public class SwipeDeckActivity extends AppCompatActivity {
             @Override
             public void cardsDepleted() {
                 Log.i("MainActivity", "no more cards");
+                //Toast.makeText(context, "No More Crads.", Toast.LENGTH_SHORT).show();
+                Call<SelectCategoryDataModel> modelCall = apiService.getAllCategoryItem(mCategoryId);
+                modelCall.enqueue(new Callback<SelectCategoryDataModel>() {
+                    @Override
+                    public void onResponse(Call<SelectCategoryDataModel> call, Response<SelectCategoryDataModel> response) {
+                        mImageUrl = response.body().getImage_url();
+                        SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context);
+                        cardStack.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<SelectCategoryDataModel> call, Throwable t)
+                    {
+
+                    }
+                });
             }
+
 
             @Override
             public void cardActionDown() {
@@ -119,7 +127,6 @@ public class SwipeDeckActivity extends AppCompatActivity {
 
         });
 
-
         Call<SelectCategoryDataModel> modelCall = apiService.getAllCategoryItem(mCategoryId);
         modelCall.enqueue(new Callback<SelectCategoryDataModel>() {
             @Override
@@ -128,27 +135,21 @@ public class SwipeDeckActivity extends AppCompatActivity {
                 SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context);
                 cardStack.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-
-
             }
 
             @Override
-            public void onFailure(Call<SelectCategoryDataModel> call, Throwable t) {
+            public void onFailure(Call<SelectCategoryDataModel> call, Throwable t)
+            {
 
             }
         });
-
-
     }
-
    /* private void startShare() {
         Bitmap bitmap = viewToBitmap(imageView, imageView.getWidth(),imageView.getHeight());
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("image/jpge");
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-
-
 
         File file = new File(Environment.getExternalStorageDirectory()+ "/Quotes" +  "Abc.png");
         try {
@@ -170,6 +171,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
         layout.setDrawingCacheEnabled(false);
         return bmp;
     }
+
     private void saveChart(Bitmap getbitmap, float height, float width,String name) {
 
         Log.e(TAG, "name: " + " http://192.168.1.200/quotesmanagement/public/uploads/" + name);
@@ -208,7 +210,8 @@ public class SwipeDeckActivity extends AppCompatActivity {
                     new Rect(0,0,well.getWidth(),well.getHeight()),
                     new Rect(0,0,(int) width, (int) height), null);
 
-            if(save == null) {
+            if(save == null)
+            {
                 System.out.println(NULL);
             }
             save.compress(Bitmap.CompressFormat.PNG, 100, ostream);
@@ -222,12 +225,9 @@ public class SwipeDeckActivity extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
         }
-        Toast.makeText(this, "Download Successfull.", Toast.LENGTH_SHORT).show();
-
     }
+
     public class SwipeDeckAdapter extends BaseAdapter {
-
-
         List<SelectCategoryDataModel.DataBean> data;
         private Context context;
 
@@ -286,6 +286,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
                 public void onClick(View v) {
                      bitmap = getBitmap(linearLayout);
                     saveChart(bitmap, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(),data.get(position).getQuotes_image());
+                    Toast.makeText(SwipeDeckActivity.this, " Download Successfull.", Toast.LENGTH_SHORT).show();
                 }
             });
 

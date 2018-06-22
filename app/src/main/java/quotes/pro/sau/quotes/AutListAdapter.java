@@ -18,7 +18,7 @@ import org.json.JSONObject;
 class AutListAdapter extends RecyclerView.Adapter<AutListAdapter.ViewHolder> {
     Context context;
     JSONArray array;
-    String id;
+    String id,quotes_name;
 
     public AutListAdapter(Context context, JSONArray array, String id)
     {
@@ -56,6 +56,7 @@ class AutListAdapter extends RecyclerView.Adapter<AutListAdapter.ViewHolder> {
                     context.startActivity(intent);*/
                     Intent intent = new Intent(context, SwipeDeckActivity.class);
                     intent.putExtra("id", id);
+                    intent.putExtra("quotes_name", quotes_name);
                     context.startActivity(intent);
                 }
             });

@@ -21,18 +21,17 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
     JSONArray array;
     String id;
 
-
-    public RecyclarAdapter(Context context, JSONArray array,String id) {
+    public RecyclarAdapter(Context context, JSONArray array,String id)
+    {
         this.context = context;
         this.array = array;
         this.id = id;
-
     }
-    public RecyclarAdapter(Context context, JSONArray array) {
+
+    public RecyclarAdapter(Context context, JSONArray array)
+    {
         this.context = context;
         this.array = array;
-
-
     }
 
     @Override
@@ -51,10 +50,10 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
 
             String upperString = o.getString("quotes").substring(0, 1).toUpperCase() + o.getString("quotes").substring(1);
             holder.textView.setText(upperString);
-           /* holder.imageView.setOnClickListener(new View.OnClickListener() {
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   *//* Intent intent = new Intent(context, SwipeDeckActivity.class);
+                    Intent intent = new Intent(context, Preview.class);
 
                     try {
                         intent.putExtra("quotes_image", "http://192.168.1.200/quotesmanagement/public/uploads/" + o.getString("quotes_image"));
@@ -62,12 +61,14 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    context.startActivity(intent);*//*
-                    Intent intent = new Intent(context, SwipeDeckActivity.class);
-                    intent.putExtra("id", id);
                     context.startActivity(intent);
+
+                 /*   Intent intent = new Intent(context, SwipeDeckActivity.class);
+                    intent.putExtra("id", id);
+                    context.startActivity(intent);*/
+
                 }
-            });*/
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -78,18 +79,17 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
         return array.length();
     }
 
-
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder
+    {
         ImageView imageView;
         TextView textView;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView)
+        {
             super(itemView);
             textView = itemView.findViewById(R.id.text);
             imageView = itemView.findViewById(R.id.bcgrnd_img);
         }
     }
-
-
 }
 

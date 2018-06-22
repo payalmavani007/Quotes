@@ -32,7 +32,8 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder
     }
 
     @Override
-    public AuthorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AuthorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         View view = LayoutInflater.from(context).inflate(R.layout.catlist_row, parent, false);
         return new AuthorAdapter.ViewHolder(view);
     }
@@ -48,16 +49,19 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
                     try {
+
                        /* Intent intent = new Intent(view.getContext(), CategoryImages.class);
                         intent.putExtra("name",jsonObjec.getString("id"));
                         c.startActivity(intent);*/
 
-                        FragmentTransaction ft = fragmentManager.beginTransaction();
+                       FragmentTransaction ft = fragmentManager.beginTransaction();
                         Bundle b = new Bundle();
                         b.putString("name", o.getString("id"));
+                        b.putString("author_name", o.getString("author_name"));
                         AuthorListFragment authorlist = new AuthorListFragment();
                         authorlist.setArguments(b);
                         ft.replace(R.id.fragment_container, authorlist).addToBackStack("tag").commit();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -79,6 +83,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder
         CardView cardView;
 
         public ViewHolder(View itemView) {
+
             super(itemView);
             textView = itemView.findViewById(R.id.cattext);
             imageView = itemView.findViewById(R.id.catbcgrnd_img);

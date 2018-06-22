@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CategoryFragment">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Category"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:id="@+id/header_text_category"
+        />
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/category_list"
+        android:layout_below="@id/header_text_category"
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+</RelativeLayout>
