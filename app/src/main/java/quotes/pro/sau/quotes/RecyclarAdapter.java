@@ -21,18 +21,17 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
     JSONArray array;
     String id;
 
-
-    public RecyclarAdapter(Context context, JSONArray array,String id) {
+    public RecyclarAdapter(Context context, JSONArray array,String id)
+    {
         this.context = context;
         this.array = array;
         this.id = id;
-
     }
-    public RecyclarAdapter(Context context, JSONArray array) {
+
+    public RecyclarAdapter(Context context, JSONArray array)
+    {
         this.context = context;
         this.array = array;
-
-
     }
 
     @Override
@@ -63,9 +62,11 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
                         e.printStackTrace();
                     }
                     context.startActivity(intent);
+
                  /*   Intent intent = new Intent(context, SwipeDeckActivity.class);
                     intent.putExtra("id", id);
                     context.startActivity(intent);*/
+
                 }
             });
         } catch (JSONException e) {
@@ -78,18 +79,17 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
         return array.length();
     }
 
-
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder
+    {
         ImageView imageView;
         TextView textView;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView)
+        {
             super(itemView);
             textView = itemView.findViewById(R.id.text);
             imageView = itemView.findViewById(R.id.bcgrnd_img);
         }
     }
-
-
 }
 
