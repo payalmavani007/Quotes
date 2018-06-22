@@ -14,4 +14,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <!--exit Dialog-->
+    <string name="Do_You_want_to_Exit">Do You want to Exit?</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+
 </resources>

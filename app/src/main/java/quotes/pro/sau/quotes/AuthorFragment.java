@@ -42,7 +42,6 @@ public class AuthorFragment extends Fragment {
         category_recycler=view.findViewById(R.id.author_list);
         setHasOptionsMenu(true);
         category_recycler.setLayoutManager(new GridLayoutManager(getContext(),3));
-
         String url="http://192.168.1.200/quotesmanagement/getdata_author";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -99,9 +98,7 @@ public class AuthorFragment extends Fragment {
 
         if (id == R.id.logout) {
             //       editor.clear().apply();
-            Log.e("sdbnfvids", "vfszdjkhv");
             SharedPreferences preferences = getContext().getSharedPreferences("status", MODE_PRIVATE);
-
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear().apply();
             FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();

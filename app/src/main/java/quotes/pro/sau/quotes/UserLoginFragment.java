@@ -44,12 +44,15 @@ public class UserLoginFragment extends Fragment {
     TextView txt_reghere;
     TextInputEditText  edt_password;
     FragmentManager fragmentManager;
+    FragmentTransaction ft;
+    FragmentManager fm ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_user_login, container, false);
         edt_email = view.findViewById(R.id.email);
+      fm  = getActivity().getSupportFragmentManager();
         setHasOptionsMenu(true);
         edt_password = view.findViewById(R.id.password);
         txt_reghere = view.findViewById(R.id.register_here);
@@ -57,7 +60,7 @@ public class UserLoginFragment extends Fragment {
         txt_reghere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft=getFragmentManager().beginTransaction();
+                 ft=getFragmentManager().beginTransaction();
                 RegisterFragment registerFragment=new RegisterFragment();
                 ft.replace(R.id.fragment_container,registerFragment).addToBackStack( "tag" ).commit();
             }
@@ -112,8 +115,9 @@ public class UserLoginFragment extends Fragment {
 
                                    hud.dismiss();
                                    FragmentTransaction ft=getFragmentManager().beginTransaction();
+                                   //fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                                    UploadCategoryFragment uploadCategoryFragment=new UploadCategoryFragment();
-                                   ft.replace(R.id.fragment_container,uploadCategoryFragment).commit();
+                                   ft.replace(R.id.fragment_container,uploadCategoryFragment).addToBackStack("tag").commit();
 
                                }
                                else {
@@ -160,11 +164,15 @@ public class UserLoginFragment extends Fragment {
             Log.e("sdbnfvids", "vfszdjkhv");
             SharedPreferences preferences = getContext().getSharedPreferences("status", MODE_PRIVATE);
 
+
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear().apply();
             FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
             Fragment fragment2 = new UserLoginFragment();
-            fragmentTransaction1.replace(R.id.fragment_container, new UserLoginFragment()).commit();
+            fragmentTransaction1.replace(R.id.fragment_container, new UserLoginFragment()).addToBackStack("tag").commit();
+   /*         fragmentTransaction1.setPrimaryNavigationFragment(fragment2);
+            fragmentTransaction1.setReorderingAllowed(true);
+            fragmentTransaction1.commitNowAllowingStateLoss();*/
 
             return true;
             // add your action here that you want

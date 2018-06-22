@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -27,7 +28,8 @@ import org.json.JSONObject;
  */
 public class AuthorListFragment extends Fragment {
     RecyclerView recyclar;
-
+    TextView textView;
+    String quotes_name;
 
 
 
@@ -36,9 +38,15 @@ public class AuthorListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_author_list, container, false);
         recyclar=view.findViewById(R.id.selected_author_list);
+        textView = view.findViewById(R.id.header_text_authorlist);
         recyclar.setLayoutManager(new GridLayoutManager(getContext(),1));
         Bundle b=getArguments();
         final String id=b.getString("name");
+
+        Bundle b1=getArguments();
+        assert b1 != null;
+         quotes_name=b1.getString("author_name");
+        textView.setText(quotes_name);
         String url="http://192.168.1.200/quotesmanagement/selected_AuthorData?author_id="+id ;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

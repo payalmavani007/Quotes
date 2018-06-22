@@ -28,6 +28,8 @@
         </activity>
         <activity
             android:name="quotes.pro.sau.quotes.BottomNavigation"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
 
         <activity
@@ -43,6 +45,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="quotes.pro.sau.quotes.SwipeDeckActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <!-- Firebase Notifications -->
         <service

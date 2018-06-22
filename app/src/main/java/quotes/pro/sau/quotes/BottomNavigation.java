@@ -1,5 +1,6 @@
 package quotes.pro.sau.quotes;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,15 +11,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -128,7 +133,7 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
-        toolbar = (Toolbar) findViewById(R.id.toolbarNavigation);
+      /*  toolbar = (Toolbar) findViewById(R.id.toolbarNavigation);*/
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         navigation.setSelectedItemId(R.id.navigation_home);
@@ -252,26 +257,28 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
         switch (item.getItemId()) {
             case R.id.navigation_home:
                 checkConnection();
-                setSupportActionBar(toolbar);
-                getSupportActionBar().setTitle("Home");
+             /*   setSupportActionBar(toolbar);*/
+         /*       getSupportActionBar().setTitle("Home");*/
                 fragment[0] = new HomeFragment();
                 fragmentTransaction.replace(R.id.fragment_container, new HomeFragment()).commit();
                 return true;
             case R.id.navigation_category:
                 checkConnection();
-                setSupportActionBar(toolbar);
-                getSupportActionBar().setTitle("Category");
+             /*   setSupportActionBar(toolbar);*/
+            /*    getSupportActionBar().setTitle("Category");*/
                 fragment[0] = new CategoryFragment();
                 fragmentTransaction.replace(R.id.fragment_container, new CategoryFragment()).commit();
                 return true;
             case R.id.navigation_author:
                 checkConnection();
-                setSupportActionBar(toolbar);
-                getSupportActionBar().setTitle("Author");
+               /* setSupportActionBar(toolbar);*/
+    /*            getSupportActionBar().setTitle("Author");*/
                 fragment[0] = new AuthorFragment();
                 fragmentTransaction.replace(R.id.fragment_container, new AuthorFragment()).commit();
                 return true;
             case R.id.navigation_userlogin:
+                FragmentManager fm = getSupportFragmentManager();
+                fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 checkConnection();
                 /*fragment = new UserLoginFragment();
                 fragmentTransaction.replace(R.id.fragment_container, new UserLoginFragment()).commit();
@@ -334,16 +341,48 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
 
                 } else {
                     setSupportActionBar(toolbar);
-                    getSupportActionBar().setTitle("Login");
+
                     Fragment fragment4 = new UserLoginFragment();
                     fragmentTransaction.replace(R.id.fragment_container, new UserLoginFragment()).commit();
                     return true;
                 }
         }
 
-        return loadFragment(fragment[0]);
+        return true;
 
     }
+    /*@Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+            final Dialog dialog = new Dialog(BottomNavigation.this);
+
+            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.exit_dialog, null);
+            dialog.setContentView(view);
+
+            dialog.show();
+
+            Button yes = dialog.findViewById(R.id.exit_yes);
+            Button no = dialog.findViewById(R.id.exit_no);
+
+            yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    onBackPressed();
+                }
+            });
+
+            no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+        }
+        return true;
+    }*/
 
 }
 
