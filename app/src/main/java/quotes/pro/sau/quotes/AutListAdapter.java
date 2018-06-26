@@ -3,6 +3,7 @@ package quotes.pro.sau.quotes;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ class AutListAdapter extends RecyclerView.Adapter<AutListAdapter.ViewHolder> {
             final JSONObject o=array.getJSONObject(position);
             Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/"+o.getString("quotes_image")).into(holder.imageView);
             holder.textView.setText(o.getString("quotes_name"));
+            Log.e("Tag", "onBindViewHolder: "+o.getString("id") );
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -54,10 +56,16 @@ class AutListAdapter extends RecyclerView.Adapter<AutListAdapter.ViewHolder> {
                         e.printStackTrace();
                     }
                     context.startActivity(intent);*/
+
                     Intent intent = new Intent(context, SwipeDeckActivity.class);
                     intent.putExtra("id", id);
                     intent.putExtra("quotes_name", quotes_name);
                     intent.putExtra("pos",position);
+                    try {
+                        intent.putExtra("AuthorListId",o.getString("id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     context.startActivity(intent);
                 }
             });

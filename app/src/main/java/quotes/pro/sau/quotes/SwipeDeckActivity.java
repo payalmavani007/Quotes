@@ -24,8 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.daprlabs.cardstack.SwipeDeck;
 import com.github.clans.fab.FloatingActionButton;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import quotes.pro.sau.quotes.model.SelectCategoryDataModel;
 import quotes.pro.sau.quotes.retrofit.ApiClient;
 import quotes.pro.sau.quotes.retrofit.ApiInterface;
@@ -52,7 +55,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
     String mImageUrl;
     ImageView imageViewShare;
     LinearLayout download1, copy;
-    String mCategoryId, position;
+    String mCategoryId, position, mAuthorListId, mCatagoryId;
     RelativeLayout layout;
     FloatingActionButton fab;
     File folder;
@@ -79,6 +82,9 @@ public class SwipeDeckActivity extends AppCompatActivity {
         assert extras != null;
         mCategoryId = extras.getString("id");
         position = extras.getString("position");
+      //  mAuthorListId = extras.getString("AuthorListId");
+        mCatagoryId = extras.getString("catagoryId");
+        Log.e(TAG, "onCreate: " + extras.getString("AuthorListId"));
         cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
             public void cardSwipedLeft(int position) {
@@ -98,15 +104,14 @@ public class SwipeDeckActivity extends AppCompatActivity {
                 modelCall.enqueue(new Callback<SelectCategoryDataModel>() {
                     @Override
                     public void onResponse(Call<SelectCategoryDataModel> call, Response<SelectCategoryDataModel> response) {
-                        mImageUrl = response.body().getImage_url();
+                        //  mImageUrl = response.body().getImage_url();
                         SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context, position);
                         cardStack.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
 
                     @Override
-                    public void onFailure(Call<SelectCategoryDataModel> call, Throwable t)
-                    {
+                    public void onFailure(Call<SelectCategoryDataModel> call, Throwable t) {
 
                     }
                 });
@@ -129,7 +134,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
         modelCall.enqueue(new Callback<SelectCategoryDataModel>() {
             @Override
             public void onResponse(Call<SelectCategoryDataModel> call, Response<SelectCategoryDataModel> response) {
-                mImageUrl = response.body().getImage_url();
+                //   mImageUrl = response.body().getImage_url();
                 SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context, position);
                 cardStack.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -253,26 +258,21 @@ public class SwipeDeckActivity extends AppCompatActivity {
                 v = inflater.inflate(R.layout.test_card2, parent, false);
             }
             ImageView imageView = (ImageView) v.findViewById(R.id.img_preview);
-          /*  Glide.with(context).load(mImageUrl + data.get(position).getQuotes_image())
-                    .thumbnail(0.5f)
-                    .crossFade()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imageView);*/
-            String name = data.get(position).getAuthormanagement_id();
-            Log.e(TAG, "name--->: "+name+"----->"+mCategoryId );
+
+            int name = data.get(position).getId();
+            Log.e(TAG, "name--->: " + name + "----->" + mCatagoryId);
 
             final TextView textView = (TextView) v.findViewById(R.id.sample_text);
             Log.e(TAG, "getView: " + " http://192.168.1.200/quotesmanagement/public/uploads/" + data.get(position).getQuotes_image());
 
 
-        if (name.equals(mCategoryId))
-        {
-            textView.setText(data.get(position).getQuotes_name());
-        }else {
-            Log.e(TAG, "noid: " );
-        }
+            if (name == Integer.parseInt(mCatagoryId)) {
+                textView.setText(data.get(position).getQuotes_name());
+            } else {
+                Log.e(TAG, "noid: ");
+            }
 
-            textView.setText(data.get(position).getQuotes_name());
+            //      textView.setText(data.get(position).getQuotes_name());
             //    ImageView imgDownload = (ImageView) v.findViewById(R.id.download);
             linearLayout = (RelativeLayout) v.findViewById(R.id.relative1);
             linearLayout.setBackgroundColor(getMatColor("600"));

@@ -56,6 +56,11 @@ class CatListAdapter extends RecyclerView.Adapter<CatListAdapter.ViewHolder> {
                     context.startActivity(intent);*/
                     Intent intent = new Intent(context, SwipeDeckActivity.class);
                     intent.putExtra("id", id);
+                    try {
+                        intent.putExtra("catagoryId", o.getString("id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     context.startActivity(intent);
                 }
             });

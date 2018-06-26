@@ -76,7 +76,7 @@ public class SelectCategoryDataModel {
         private String created_at;
         private String updated_at;
 
-        public int getId(int i) {
+        public int getId() {
             return id;
         }
 
