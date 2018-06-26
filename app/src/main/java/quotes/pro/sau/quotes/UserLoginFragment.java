@@ -52,7 +52,7 @@ public class UserLoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_user_login, container, false);
         edt_email = view.findViewById(R.id.email);
-      fm  = getActivity().getSupportFragmentManager();
+        fm  = getActivity().getSupportFragmentManager();
         setHasOptionsMenu(true);
         edt_password = view.findViewById(R.id.password);
         txt_reghere = view.findViewById(R.id.register_here);
@@ -115,9 +115,11 @@ public class UserLoginFragment extends Fragment {
 
                                    hud.dismiss();
                                    FragmentTransaction ft=getFragmentManager().beginTransaction();
-                                   //fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
                                    UploadCategoryFragment uploadCategoryFragment=new UploadCategoryFragment();
-                                   ft.replace(R.id.fragment_container,uploadCategoryFragment).addToBackStack("tag").commit();
+                                   ft.replace(R.id.fragment_container,uploadCategoryFragment)
+                                           .commit();
+
 
                                }
                                else {
@@ -161,7 +163,6 @@ public class UserLoginFragment extends Fragment {
 
         if (id == R.id.logout) {
             //       editor.clear().apply();
-            Log.e("sdbnfvids", "vfszdjkhv");
             SharedPreferences preferences = getContext().getSharedPreferences("status", MODE_PRIVATE);
 
 
@@ -169,7 +170,7 @@ public class UserLoginFragment extends Fragment {
             editor.clear().apply();
             FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
             Fragment fragment2 = new UserLoginFragment();
-            fragmentTransaction1.replace(R.id.fragment_container, new UserLoginFragment()).addToBackStack("tag").commit();
+            fragmentTransaction1.replace(R.id.fragment_container, new UserLoginFragment()).commit();
    /*         fragmentTransaction1.setPrimaryNavigationFragment(fragment2);
             fragmentTransaction1.setReorderingAllowed(true);
             fragmentTransaction1.commitNowAllowingStateLoss();*/

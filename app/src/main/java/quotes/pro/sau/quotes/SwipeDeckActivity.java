@@ -13,9 +13,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.github.clans.fab.FloatingActionButton;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -54,20 +51,20 @@ public class SwipeDeckActivity extends AppCompatActivity {
     ArrayList<String> newData;
     String mImageUrl;
     ImageView imageViewShare;
-    LinearLayout download1,copy;
-    String mCategoryId;
-    private SwipeDeck cardStack;
-    private Context context = this;
+    LinearLayout download1, copy;
+    String mCategoryId, position;
     RelativeLayout layout;
     FloatingActionButton fab;
-    private SwipeDeckAdapter adapter;
-    private ArrayList<String> testData;
     File folder;
     String timeStamp;
     File file;
     String root;
     Bitmap bitmap;
     RelativeLayout linearLayout;
+    private SwipeDeck cardStack;
+    private Context context = this;
+    private SwipeDeckAdapter adapter;
+    private ArrayList<String> testData;
 
     @SuppressLint("InflateParams")
     @Override
@@ -81,6 +78,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         mCategoryId = extras.getString("id");
+        position = extras.getString("position");
         cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
             public void cardSwipedLeft(int position) {
@@ -101,7 +99,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<SelectCategoryDataModel> call, Response<SelectCategoryDataModel> response) {
                         mImageUrl = response.body().getImage_url();
-                        SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context);
+                        SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context, position);
                         cardStack.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
@@ -132,39 +130,38 @@ public class SwipeDeckActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SelectCategoryDataModel> call, Response<SelectCategoryDataModel> response) {
                 mImageUrl = response.body().getImage_url();
-                SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context);
+                SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context, position);
                 cardStack.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<SelectCategoryDataModel> call, Throwable t)
-            {
+            public void onFailure(Call<SelectCategoryDataModel> call, Throwable t) {
 
             }
         });
     }
-   /* private void startShare() {
-        Bitmap bitmap = viewToBitmap(imageView, imageView.getWidth(),imageView.getHeight());
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("image/jpge");
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
 
-        File file = new File(Environment.getExternalStorageDirectory()+ "/Quotes" +  "Abc.png");
-        try {
-            file.createNewFile();
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(byteArrayOutputStream.toByteArray());
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///internalstorage/quotes/Abc.png"));
-            startActivity(Intent.createChooser(intent,"Share Image"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-*/
-    public Bitmap getBitmap(RelativeLayout layout)
-    {
+    /* private void startShare() {
+         Bitmap bitmap = viewToBitmap(imageView, imageView.getWidth(),imageView.getHeight());
+         Intent intent = new Intent(Intent.ACTION_SEND);
+         intent.setType("image/jpge");
+         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+         bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+
+         File file = new File(Environment.getExternalStorageDirectory()+ "/Quotes" +  "Abc.png");
+         try {
+             file.createNewFile();
+             FileOutputStream fileOutputStream = new FileOutputStream(file);
+             fileOutputStream.write(byteArrayOutputStream.toByteArray());
+             intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///internalstorage/quotes/Abc.png"));
+             startActivity(Intent.createChooser(intent,"Share Image"));
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+     }
+ */
+    public Bitmap getBitmap(RelativeLayout layout) {
         layout.setDrawingCacheEnabled(true);
         layout.buildDrawingCache();
         Bitmap bmp = Bitmap.createBitmap(layout.getDrawingCache());
@@ -172,23 +169,21 @@ public class SwipeDeckActivity extends AppCompatActivity {
         return bmp;
     }
 
-    private void saveChart(Bitmap getbitmap, float height, float width,String name) {
+    private void saveChart(Bitmap getbitmap, float height, float width, String name) {
 
         Log.e(TAG, "name: " + " http://192.168.1.200/quotesmanagement/public/uploads/" + name);
         root = Environment.getExternalStorageDirectory().toString();
         folder = new File(root + "/Quotes");
         boolean success = false;
 
-        if (!folder.exists())
-        {
+        if (!folder.exists()) {
             success = folder.mkdirs();
         }
-         timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss",
+        timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss",
                 Locale.getDefault()).format(new Date());
-         file = new File(folder.getPath() + File.separator +name+".png");
+        file = new File(folder.getPath() + File.separator + name + ".png");
 
-        if ( !file.exists() )
-        {
+        if (!file.exists()) {
             try {
                 success = file.createNewFile();
             } catch (IOException e) {
@@ -197,7 +192,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
         }
         FileOutputStream ostream = null;
 
-        try{
+        try {
             ostream = new FileOutputStream(file);
             System.out.println(ostream);
             Bitmap well = getbitmap;
@@ -205,34 +200,32 @@ public class SwipeDeckActivity extends AppCompatActivity {
             Paint paint = new Paint();
             paint.setColor(Color.WHITE);
             Canvas now = new Canvas(save);
-            now.drawRect(new Rect(0,0,(int) width, (int) height), paint);
+            now.drawRect(new Rect(0, 0, (int) width, (int) height), paint);
             now.drawBitmap(well,
-                    new Rect(0,0,well.getWidth(),well.getHeight()),
-                    new Rect(0,0,(int) width, (int) height), null);
+                    new Rect(0, 0, well.getWidth(), well.getHeight()),
+                    new Rect(0, 0, (int) width, (int) height), null);
 
-            if(save == null)
-            {
+            if (save == null) {
                 System.out.println(NULL);
             }
             save.compress(Bitmap.CompressFormat.PNG, 100, ostream);
-        }
-        catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
-        }
-        catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public class SwipeDeckAdapter extends BaseAdapter {
         List<SelectCategoryDataModel.DataBean> data;
+        String position;
         private Context context;
 
-        public SwipeDeckAdapter(List<SelectCategoryDataModel.DataBean> data, Context context) {
+        public SwipeDeckAdapter(List<SelectCategoryDataModel.DataBean> data, Context context, String position) {
             this.data = data;
+            this.position = position;
             this.context = context;
         }
 
@@ -265,11 +258,22 @@ public class SwipeDeckActivity extends AppCompatActivity {
                     .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView);*/
+            String name = data.get(position).getAuthormanagement_id();
+            Log.e(TAG, "name--->: "+name+"----->"+mCategoryId );
 
             final TextView textView = (TextView) v.findViewById(R.id.sample_text);
             Log.e(TAG, "getView: " + " http://192.168.1.200/quotesmanagement/public/uploads/" + data.get(position).getQuotes_image());
+
+
+        if (name.equals(mCategoryId))
+        {
             textView.setText(data.get(position).getQuotes_name());
-        //    ImageView imgDownload = (ImageView) v.findViewById(R.id.download);
+        }else {
+            Log.e(TAG, "noid: " );
+        }
+
+            textView.setText(data.get(position).getQuotes_name());
+            //    ImageView imgDownload = (ImageView) v.findViewById(R.id.download);
             linearLayout = (RelativeLayout) v.findViewById(R.id.relative1);
             linearLayout.setBackgroundColor(getMatColor("600"));
             download1 = v.findViewById(R.id.download1);
@@ -277,15 +281,15 @@ public class SwipeDeckActivity extends AppCompatActivity {
             copy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE)).setText(textView.getText().toString());
+                    ((ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE)).setText(textView.getText().toString());
                     Toast.makeText(SwipeDeckActivity.this, "Quote Copied.", Toast.LENGTH_SHORT).show();
                 }
             });
             download1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                     bitmap = getBitmap(linearLayout);
-                    saveChart(bitmap, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(),data.get(position).getQuotes_image());
+                    bitmap = getBitmap(linearLayout);
+                    saveChart(bitmap, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(), data.get(position).getQuotes_image());
                     Toast.makeText(SwipeDeckActivity.this, " Download Successfull.", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -302,15 +306,15 @@ public class SwipeDeckActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(sharingIntent, "Share image using"));*/
 
                     Bitmap bitmap1 = getBitmap(linearLayout);
-                    saveChart(bitmap1, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(),data.get(position).getQuotes_image());
+                    saveChart(bitmap1, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(), data.get(position).getQuotes_image());
 
-                    String fileName = data.get(position).getQuotes_image()+".png";
+                    String fileName = data.get(position).getQuotes_image() + ".png";
                     String externalStorageDirectory = Environment.getExternalStorageDirectory().toString();
                     String myDir = externalStorageDirectory + "/Quotes/"; // the file will be in saved_images
                     Uri uri = Uri.parse("file:///" + myDir + fileName);
                     Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                     shareIntent.setType("image/*");
-                    Log.e("path","sjfgsdfgas"+ uri);
+                    Log.e("path", "sjfgsdfgas" + uri);
 
                     shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Test Mail");
                     shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Quotes Images");

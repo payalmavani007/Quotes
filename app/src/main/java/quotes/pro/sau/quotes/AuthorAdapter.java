@@ -12,20 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder> {
-
+public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder>
+{
     Context context;
     JSONArray dataAry;
     FragmentManager fragmentManager;
 
-    public AuthorAdapter(Context context, JSONArray dataAry, FragmentManager fragmentManager) {
+    public AuthorAdapter(Context context, JSONArray dataAry, FragmentManager fragmentManager)
+    {
         this.context = context;
         this.dataAry = dataAry;
         this.fragmentManager = fragmentManager;
@@ -39,7 +38,8 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(AuthorAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(AuthorAdapter.ViewHolder holder, final int position)
+    {
         holder.cardView.setCardBackgroundColor(Color.TRANSPARENT);
         try {
             final JSONObject o = dataAry.getJSONObject(position);
@@ -67,23 +67,26 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder
                     }
                 }
             });
-        } catch (JSONException e) {
+        } catch (JSONException e)
+        {
             e.printStackTrace();
         }
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return dataAry.length();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder
+    {
         ImageView imageView;
         TextView textView;
         CardView cardView;
 
-        public ViewHolder(View itemView) {
-
+        public ViewHolder(View itemView)
+        {
             super(itemView);
             textView = itemView.findViewById(R.id.cattext);
             imageView = itemView.findViewById(R.id.catbcgrnd_img);

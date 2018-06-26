@@ -57,6 +57,7 @@ class AutListAdapter extends RecyclerView.Adapter<AutListAdapter.ViewHolder> {
                     Intent intent = new Intent(context, SwipeDeckActivity.class);
                     intent.putExtra("id", id);
                     intent.putExtra("quotes_name", quotes_name);
+                    intent.putExtra("pos",position);
                     context.startActivity(intent);
                 }
             });

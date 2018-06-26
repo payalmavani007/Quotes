@@ -102,7 +102,7 @@ public class CategoryFragment extends Fragment {
             editor.clear().apply();
             FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
             Fragment fragment2 = new UserLoginFragment();
-            fragmentTransaction1.replace(R.id.fragment_container, new UserLoginFragment()).commit();
+            fragmentTransaction1.replace(R.id.fragment_container, new UserLoginFragment()).addToBackStack("tag").commit();
 
             return true;
             // add your action here that you want

@@ -1,28 +1,14 @@
 package quotes.pro.sau.quotes;
 
-
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -34,27 +20,20 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 import com.kaopiz.kprogresshud.KProgressHUD;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -99,14 +78,19 @@ public class UploadCategoryFragment extends Fragment {
 
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.clear().apply();
+                        Toast.makeText(getContext(), "clear"+
+                                editor, Toast.LENGTH_SHORT).show();
+                        assert getFragmentManager() != null;
                         FragmentTransaction fragmentTransaction1 = getFragmentManager().beginTransaction();
                         Fragment fragment2 = new UserLoginFragment();
-                        fragmentTransaction1.replace(R.id.fragment_container, new UserLoginFragment()).commit();
+                        fragmentTransaction1.replace(R.id.fragment_container, new UserLoginFragment()).addToBackStack(null).commit();
+
                         dialog.dismiss();
                     }
                 });
             }
         });
+
         txt_category = view.findViewById(R.id.upload_category);
         txt_category.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,11 +190,14 @@ public class UploadCategoryFragment extends Fragment {
                     {
                     FragmentTransaction ft=getFragmentManager().beginTransaction();
                     HomeFragment homeFragment=new HomeFragment();
-                    ft.replace(R.id.fragment_container,homeFragment).addToBackStack( "tag" ).commit();
+                    ft.replace(R.id.fragment_container,homeFragment).commit();
                 }
             }
         });
         return  view;
+    }
+
+
     }
   /*  @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -247,4 +234,4 @@ public class UploadCategoryFragment extends Fragment {
     }
 */
 
-}
+

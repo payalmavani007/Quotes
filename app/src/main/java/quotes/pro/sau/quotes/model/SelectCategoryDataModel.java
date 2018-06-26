@@ -62,12 +62,21 @@ public class SelectCategoryDataModel {
         private int id;
         private String quotes_image;
         private String quotes_name;
-        private int authormanagement_id;
+
+        public String getAuthormanagement_id() {
+            return authormanagement_id;
+        }
+
+        public void setAuthormanagement_id(String authormanagement_id) {
+            this.authormanagement_id = authormanagement_id;
+        }
+
+        private String authormanagement_id;
         private int categorymanagement_id;
         private String created_at;
         private String updated_at;
 
-        public int getId() {
+        public int getId(int i) {
             return id;
         }
 
@@ -91,13 +100,6 @@ public class SelectCategoryDataModel {
             this.quotes_name = quotes_name;
         }
 
-        public int getAuthormanagement_id() {
-            return authormanagement_id;
-        }
-
-        public void setAuthormanagement_id(int authormanagement_id) {
-            this.authormanagement_id = authormanagement_id;
-        }
 
         public int getCategorymanagement_id() {
             return categorymanagement_id;

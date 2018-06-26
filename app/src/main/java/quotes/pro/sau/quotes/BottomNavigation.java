@@ -1,5 +1,6 @@
 package quotes.pro.sau.quotes;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -23,6 +25,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -57,7 +61,10 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment = null;
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                Window w = getWindow();
+                w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            }
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (item.getItemId()) {
                 case R.id.navigation_home:
@@ -249,10 +256,14 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
         showSnack(isConnected);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         final Fragment[] fragment = {null};
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(R.color.colorAccent);  }
         final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()) {
             case R.id.navigation_home:
@@ -323,7 +334,7 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
                                 } else {
 
                                     Fragment fragment1 = new UserLoginFragment();
-                                    fragmentTransaction.replace(R.id.fragment_container, new UserLoginFragment()).commit();
+                                    fragmentTransaction.replace(R.id.fragment_container, new UserLoginFragment()).addToBackStack("tag").commit();
                                 }
 
                             } catch (JSONException e) {
@@ -343,7 +354,7 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
                     setSupportActionBar(toolbar);
 
                     Fragment fragment4 = new UserLoginFragment();
-                    fragmentTransaction.replace(R.id.fragment_container, new UserLoginFragment()).commit();
+                    fragmentTransaction.replace(R.id.fragment_container, new UserLoginFragment()).addToBackStack("tag").commit();
                     return true;
                 }
         }
