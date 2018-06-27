@@ -15,18 +15,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import quotes.pro.sau.quotes.model.Homelist_model;
+
 class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
 
     Context context;
     JSONArray array;
     String id;
-
+    ArrayList<Homelist_model> grid_models;
     public RecyclarAdapter(Context context, JSONArray array,String id)
     {
         this.context = context;
         this.array = array;
+        this.grid_models=grid_models;
         this.id = id;
+
     }
+    public RecyclarAdapter(Context c, ArrayList<Homelist_model> grid_models) {
+        this.context = c;
+        this.grid_models=grid_models;
+    }
+
 
     public RecyclarAdapter(Context context, JSONArray array)
     {
@@ -43,14 +55,15 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        try {
-            final JSONObject o = array.getJSONObject(position);
-            Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/" + o.getString("quotes_image")).into(holder.imageView);
-            //  holder.textView.setText(o.getString("quotes"));
+        // final JSONObject o = array.getJSONObject(position);
+        final Homelist_model grid_model = grid_models.get(position);
+        //Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/" + o.getString("quotes_image")).into(holder.imageView);
+        Picasso.get().load(grid_model.getImage_url()).into(holder.imageView);
+        //  holder.textView.setText(o.getString("quotes"));
 
-            String upperString = o.getString("quotes").substring(0, 1).toUpperCase() + o.getString("quotes").substring(1);
-            holder.textView.setText(upperString);
-            holder.imageView.setOnClickListener(new View.OnClickListener() {
+        //String upperString = o.getString("quotes").substring(0, 1).toUpperCase() + o.getString("quotes").substring(1);
+        //holder.textView.setText(upperString);
+          /*  holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, Preview.class);
@@ -58,25 +71,28 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
                     try {
                         intent.putExtra("quotes_image", "http://192.168.1.200/quotesmanagement/public/uploads/" + o.getString("quotes_image"));
                         intent.putExtra("quotes", o.getString("quotes"));
+                        intent.putExtra("pos",position);
+                        intent.putExtra("array", (Serializable) array);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     context.startActivity(intent);
 
-                 /*   Intent intent = new Intent(context, SwipeDeckActivity.class);
+                 *//*   Intent intent = new Intent(context, SwipeDeckActivity.class);
                     intent.putExtra("id", id);
-                    context.startActivity(intent);*/
+                    context.startActivity(intent);*//*
 
                 }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            });*/
     }
 
     @Override
     public int getItemCount() {
-        return array.length();
+        return grid_models.size();
+    }
+
+    public void add(Homelist_model grid_model) {
+        grid_models.add(grid_model);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder

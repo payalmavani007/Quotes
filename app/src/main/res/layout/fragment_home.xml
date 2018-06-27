@@ -5,17 +5,17 @@
     android:layout_height="match_parent"
     android:background="@drawable/backgrouncolor"
     tools:context=".HomeFragment">
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:text="Home"
-    android:textSize="20dp"
-    android:layout_centerHorizontal="true"
-    android:gravity="center"
-    android:textStyle="bold"
-    android:textColor="@color/colorBlack"
-    android:id="@+id/header_text_home"
-    />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Home"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:id="@+id/header_text_home"
+        />
     <android.support.v7.widget.RecyclerView
 
         android:id="@+id/recyclar"
@@ -23,3 +23,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </RelativeLayout>
+

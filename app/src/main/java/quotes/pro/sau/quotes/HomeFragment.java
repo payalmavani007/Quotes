@@ -40,6 +40,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import quotes.pro.sau.quotes.model.Homelist_model;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -57,7 +61,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         setHasOptionsMenu(true);
-            recyclar=view.findViewById(R.id.recyclar);
+        recyclar=view.findViewById(R.id.recyclar);
         if (ActivityCompat.checkSelfPermission(getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) getContext(),
@@ -114,7 +118,7 @@ public class HomeFragment extends Fragment {
             }
 
         }
-                recyclar.setLayoutManager(new GridLayoutManager(getContext(),1));
+        recyclar.setLayoutManager(new GridLayoutManager(getContext(),1));
 
         Bundle b1=getArguments();
         Bundle b=getArguments();
@@ -122,7 +126,8 @@ public class HomeFragment extends Fragment {
 
 
         if (b1 != null) {
-           /* if (b.containsKey("name")){*/
+
+            /* if (b.containsKey("name")){*/
             final String str=b1.getString("name");
             final String id = b.getString("id");
             Toast.makeText(getContext(), "search string "+b1.get("name"), Toast.LENGTH_SHORT).show();
@@ -134,19 +139,29 @@ public class HomeFragment extends Fragment {
                     Log.e("response ",response);
                     Log.e("url ",searchurl);
 
+
                     try {
-                        JSONObject jsonObject=new JSONObject(response);
-                        if (jsonObject.getInt("status")==0)
-                        {
-                            JSONArray dataAry=jsonObject.getJSONArray("data");
-                            recyclarAdapter=new RecyclarAdapter(getContext(),dataAry,id);
-                            recyclar.setAdapter(recyclarAdapter);
-                        }
-                        else {
-                            Toast.makeText(getContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
+                        Log.e("page IN ASYNC TASK ", response);
+                        JSONObject jsonObject = new JSONObject(response);
+
+                        JSONArray array = jsonObject.getJSONArray("data");
+
+
+
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject o = (JSONObject) array.get(i);
+                            Homelist_model grid_model = new Homelist_model();
+                            grid_model.setImage_url(o.getString("img_url"));
+
+
+                            recyclarAdapter.add(grid_model);
+
                         }
 
-                    } catch (JSONException e) {
+
+
+                    }
+                    catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
@@ -159,46 +174,50 @@ public class HomeFragment extends Fragment {
             Volley.newRequestQueue(getContext()).add(stringRequest1);
 
 
-            }else {
+        }else {
+            recyclarAdapter = new RecyclarAdapter(getContext(), new ArrayList<Homelist_model>());
 
+            final String url = "http://192.168.1.200/quotesmanagement/list_quotes";
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
-                final String url = "http://192.168.1.200/quotesmanagement/list_quotes";
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                    Log.e("response ", response);
+                    Log.e("final url ", url);
+                    try {
+                        Log.e("page IN ASYNC TASK ", response);
+                        JSONObject jsonObject = new JSONObject(response);
 
-                        Log.e("response ", response);
-                        Log.e("final url ", url);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.getInt("status") == 0) {
-                                JSONArray dataAry = jsonObject.getJSONArray("data");
-                                recyclarAdapter = new RecyclarAdapter(getContext(), dataAry);
-                                recyclar.setAdapter(recyclarAdapter);
-                            } else
-                                {
-                                Toast.makeText(getContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
-                            }
+                        JSONArray array = jsonObject.getJSONArray("data");
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject o = (JSONObject) array.get(i);
+                            Homelist_model grid_model = new Homelist_model();
+                            grid_model.setImage_url(o.getString("image_url"));
+                            recyclarAdapter.add(grid_model);
+
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
 
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                });
-                Volley.newRequestQueue(getContext()).add(stringRequest);
-            }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+            Volley.newRequestQueue(getContext()).add(stringRequest);
+        }
 
         return  view;
     }
 
-   @Override
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
-   {
+    {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle("Home");
 

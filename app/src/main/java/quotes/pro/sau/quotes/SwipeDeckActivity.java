@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -69,11 +72,18 @@ public class SwipeDeckActivity extends AppCompatActivity {
     private SwipeDeckAdapter adapter;
     private ArrayList<String> testData;
 
-    @SuppressLint("InflateParams")
+    @SuppressLint({"InflateParams", "ResourceAsColor"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_deck);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(R.color.colorAccent);  }
+
+
         cardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
         imageViewShare = findViewById(R.id.share);
         cardStack.setHardwareAccelerationEnabled(true);
