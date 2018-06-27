@@ -60,6 +60,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Intent intent=new Intent(getActivity(),PreviewViewPager.class);
+        startActivity(intent);
         setHasOptionsMenu(true);
         recyclar=view.findViewById(R.id.recyclar);
         if (ActivityCompat.checkSelfPermission(getContext(),

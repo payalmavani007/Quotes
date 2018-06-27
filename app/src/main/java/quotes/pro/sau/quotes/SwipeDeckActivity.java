@@ -273,8 +273,6 @@ public class SwipeDeckActivity extends AppCompatActivity {
             Log.e(TAG, "name--->: " + name + "----->" + mCatagoryId);
 
             final TextView textView = (TextView) v.findViewById(R.id.sample_text);
-            Log.e(TAG, "getView: " + " http://192.168.1.200/quotesmanagement/public/uploads/" + data.get(position).getQuotes_image());
-
 
             if (name == Integer.parseInt(mCatagoryId)) {
                 textView.setText(data.get(position).getQuotes_name());

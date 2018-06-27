@@ -46,6 +46,10 @@
             android:name=".SwipeDeckActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PreviewViewPager"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- Firebase Notifications -->
         <service
             android:name=".service.MyFirebaseMessagingService"
