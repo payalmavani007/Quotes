@@ -8,18 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 
 public class SlidingImage_Adapter extends PagerAdapter {
 
 
-    private ArrayList<Integer> IMAGES;
+    private JSONArray IMAGES;
     private LayoutInflater inflater;
     private Context context;
 
 
-    public SlidingImage_Adapter(Context context, ArrayList<Integer> IMAGES) {
+    public SlidingImage_Adapter(Context context, JSONArray IMAGES) {
         this.context = context;
         this.IMAGES = IMAGES;
         inflater = LayoutInflater.from(context);
@@ -32,7 +35,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return IMAGES.size();
+        return IMAGES.length();
     }
 
     @Override
@@ -44,7 +47,11 @@ public class SlidingImage_Adapter extends PagerAdapter {
                 .findViewById(R.id.image);
 
 
-        imageView.setImageResource(IMAGES.get(position));
+        try {
+            imageView.setImageResource((Integer) IMAGES.get(position));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         view.addView(imageLayout, 0);
 

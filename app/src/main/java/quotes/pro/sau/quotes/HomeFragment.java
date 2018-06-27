@@ -40,10 +40,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-import quotes.pro.sau.quotes.model.Homelist_model;
-
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -54,14 +50,13 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclar;
     RecyclarAdapter recyclarAdapter;
 
+
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Intent intent=new Intent(getActivity(),PreviewViewPager.class);
-        startActivity(intent);
         setHasOptionsMenu(true);
         recyclar=view.findViewById(R.id.recyclar);
         if (ActivityCompat.checkSelfPermission(getContext(),
@@ -128,7 +123,6 @@ public class HomeFragment extends Fragment {
 
 
         if (b1 != null) {
-
             /* if (b.containsKey("name")){*/
             final String str=b1.getString("name");
             final String id = b.getString("id");
@@ -141,29 +135,19 @@ public class HomeFragment extends Fragment {
                     Log.e("response ",response);
                     Log.e("url ",searchurl);
 
-
                     try {
-                        Log.e("page IN ASYNC TASK ", response);
-                        JSONObject jsonObject = new JSONObject(response);
-
-                        JSONArray array = jsonObject.getJSONArray("data");
-
-
-
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject o = (JSONObject) array.get(i);
-                            Homelist_model grid_model = new Homelist_model();
-                            grid_model.setImage_url(o.getString("img_url"));
-
-
-                            recyclarAdapter.add(grid_model);
-
+                        JSONObject jsonObject=new JSONObject(response);
+                        if (jsonObject.getInt("status")==0)
+                        {
+                            JSONArray dataAry=jsonObject.getJSONArray("data");
+                            recyclarAdapter=new RecyclarAdapter(getContext(),dataAry,id);
+                            recyclar.setAdapter(recyclarAdapter);
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
                         }
 
-
-
-                    }
-                    catch (JSONException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
@@ -177,7 +161,7 @@ public class HomeFragment extends Fragment {
 
 
         }else {
-            recyclarAdapter = new RecyclarAdapter(getContext(), new ArrayList<Homelist_model>());
+
 
             final String url = "http://192.168.1.200/quotesmanagement/list_quotes";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -187,19 +171,15 @@ public class HomeFragment extends Fragment {
                     Log.e("response ", response);
                     Log.e("final url ", url);
                     try {
-                        Log.e("page IN ASYNC TASK ", response);
                         JSONObject jsonObject = new JSONObject(response);
-
-                        JSONArray array = jsonObject.getJSONArray("data");
-
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject o = (JSONObject) array.get(i);
-                            Homelist_model grid_model = new Homelist_model();
-                            grid_model.setImage_url(o.getString("image_url"));
-                            recyclarAdapter.add(grid_model);
-
+                        if (jsonObject.getInt("status") == 0) {
+                            JSONArray dataAry = jsonObject.getJSONArray("data");
+                            recyclarAdapter = new RecyclarAdapter(getContext(), dataAry);
+                            recyclar.setAdapter(recyclarAdapter);
+                        } else
+                        {
+                            Toast.makeText(getContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
                         }
-
 
                     } catch (JSONException e) {
                         e.printStackTrace();
