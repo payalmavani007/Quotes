@@ -63,7 +63,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
         assert imageLayout != null;
 
-        final FrameLayout frameLayout = (FrameLayout) imageLayout.findViewById(R.id.relative);
+        final RelativeLayout frameLayout = (RelativeLayout) imageLayout.findViewById(R.id.relative);
 
         final ImageView download = (ImageView) imageLayout
                 .findViewById(R.id.download);
@@ -135,7 +135,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     }
 
-    public Bitmap getBitmap(FrameLayout frameLayout) {
+    public Bitmap getBitmap(RelativeLayout frameLayout) {
         frameLayout.setDrawingCacheEnabled(true);
         frameLayout.buildDrawingCache();
         Bitmap bmp = Bitmap.createBitmap(frameLayout.getDrawingCache());

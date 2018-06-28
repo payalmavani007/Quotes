@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daprlabs.cardstack.SwipeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/swipeLayout"
+    android:background="@drawable/backgrouncolor"
+    android:layout_height="match_parent"
+    tools:context=".CategorySwipeActivity">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/share_category"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/share"
+        android:layout_margin="16dp"
+        />
+
+    <com.daprlabs.cardstack.SwipeDeck
+        android:id="@+id/swipe_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="110dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="110dp"
+        app:layout_anchor="@id/swipeLayout"
+        swipedeck:card_spacing="10dp"
+        swipedeck:max_visible="1"
+        swipedeck:opacity_end="0.2"
+        swipedeck:render_above="true"
+        swipedeck:rotation_degrees="15" />
+
+</com.daprlabs.cardstack.SwipeFrameLayout>

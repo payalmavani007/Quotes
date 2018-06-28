@@ -66,6 +66,7 @@
             </intent-filter>
         </service>
         <!-- ./Firebase Notifications -->
+        <activity android:name=".CategorySwipeActivity"></activity>
     </application>
 
 </manifest>

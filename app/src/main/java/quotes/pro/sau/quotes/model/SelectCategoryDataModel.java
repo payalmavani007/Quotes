@@ -12,13 +12,42 @@ public class SelectCategoryDataModel {
      */
 
     private int status;
+    private int id;
     private String msg;
+
+    private String quotes_image;
+    private String quotes_name;
+
     private String image_url;
     private List<DataBean> data;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getQuotes_image() {
+        return quotes_image;
+    }
+
+    public void setQuotes_image(String quotes_image) {
+        this.quotes_image = quotes_image;
+    }
 
     public int getStatus() {
         return status;
     }
+    public String getQuotes_name() {
+        return quotes_name;
+    }
+
+    public void setQuotes_name(String quotes_name) {
+        this.quotes_name = quotes_name;
+    }
+
 
     public void setStatus(int status) {
         this.status = status;
