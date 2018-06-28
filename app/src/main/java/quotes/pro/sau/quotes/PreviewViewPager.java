@@ -38,10 +38,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import quotes.pro.sau.quotes.model.Homelist_model;
+import quotes.pro.sau.quotes.retrofit.ApiClient;
+import quotes.pro.sau.quotes.retrofit.ApiInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
+
 import static java.sql.Types.NULL;
 
 public class PreviewViewPager extends AppCompatActivity {
-    ImageView  download ;
+    ImageView download;
     TextView txt;
     RelativeLayout layout;
     Context context;
@@ -51,7 +57,7 @@ public class PreviewViewPager extends AppCompatActivity {
     RecyclarAdapter recyclarAdapter;
     ViewPager mpager;
     SlidingImage_Adapter adapter;
-
+    private static final String TAG = "PreviewViewPager";
 
     private static ViewPager mPager;
     private static int currentPage = 0;
@@ -63,19 +69,17 @@ public class PreviewViewPager extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preview_viewpager);
-        download = findViewById(R.id.download);
-        layout = findViewById(R.id.relative);
         mPager = (ViewPager) findViewById(R.id.pager);
-        download.setOnClickListener(new View.OnClickListener() {
+      /*  download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bitmap bitmap = getBitmap(layout);
                 saveChart(bitmap, layout.getMeasuredHeight(), layout.getMeasuredWidth());
             }
-        });
+        });*/
         init();
 
-        final String url = "http://192.168.1.200/quotesmanagement/list_quotes";
+     /*   final String url = "http://192.168.1.200/quotesmanagement/list_quotes";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -85,11 +89,10 @@ public class PreviewViewPager extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getInt("status") == 0) {
-                         dataAry = jsonObject.getJSONArray("data");
+                        dataAry = jsonObject.getJSONArray("data");
                         mPager = new ViewPager(getApplicationContext(), (AttributeSet) dataAry);
-                  mPager.setAdapter(adapter);
-                    } else
-                    {
+                        mPager.setAdapter(adapter);
+                    } else {
                         Toast.makeText(getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
                     }
 
@@ -105,7 +108,7 @@ public class PreviewViewPager extends AppCompatActivity {
         });
         Volley.newRequestQueue(getApplicationContext()).add(stringRequest);
 
-
+*/
     }
     //-----------------------------download-----------------------------
 
@@ -116,16 +119,14 @@ public class PreviewViewPager extends AppCompatActivity {
         File folder = new File(root + "/Quotes");
         boolean success = false;
 
-        if (!folder.exists())
-        {
+        if (!folder.exists()) {
             success = folder.mkdirs();
         }
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss",
                 Locale.getDefault()).format(new Date());
-        File file = new File(folder.getPath() + File.separator +timeStamp+".png");
+        File file = new File(folder.getPath() + File.separator + timeStamp + ".png");
 
-        if ( !file.exists() )
-        {
+        if (!file.exists()) {
             try {
                 success = file.createNewFile();
             } catch (IOException e) {
@@ -134,7 +135,7 @@ public class PreviewViewPager extends AppCompatActivity {
         }
         FileOutputStream ostream = null;
 
-        try{
+        try {
             ostream = new FileOutputStream(file);
             System.out.println(ostream);
             Bitmap well = getbitmap;
@@ -142,30 +143,27 @@ public class PreviewViewPager extends AppCompatActivity {
             Paint paint = new Paint();
             paint.setColor(Color.WHITE);
             Canvas now = new Canvas(save);
-            now.drawRect(new Rect(0,0,(int) width, (int) height), paint);
+            now.drawRect(new Rect(0, 0, (int) width, (int) height), paint);
             now.drawBitmap(well,
-                    new Rect(0,0,well.getWidth(),well.getHeight()),
-                    new Rect(0,0,(int) width, (int) height), null);
+                    new Rect(0, 0, well.getWidth(), well.getHeight()),
+                    new Rect(0, 0, (int) width, (int) height), null);
 
-            if(save == null) {
+            if (save == null) {
                 System.out.println(NULL);
             }
             save.compress(Bitmap.CompressFormat.PNG, 100, ostream);
-        }
-        catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
-        }
-        catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Toast.makeText(this, "Download Successfull.", Toast.LENGTH_SHORT).show();
 
     }
 
-    public Bitmap getBitmap(RelativeLayout layout){
+    public Bitmap getBitmap(RelativeLayout layout) {
         layout.setDrawingCacheEnabled(true);
         layout.buildDrawingCache();
         Bitmap bmp = Bitmap.createBitmap(layout.getDrawingCache());
@@ -176,15 +174,25 @@ public class PreviewViewPager extends AppCompatActivity {
     //-----------------------viewpager--------------
 
 
-
     private void init() {
-        for (int i = 0; i < IMAGES.length; i++)
-           ImagesArray.add(adapter);
-        mpager.setAdapter(new SlidingImage_Adapter(PreviewViewPager.this, dataAry));
-        final float density = getResources().getDisplayMetrics().density;
+
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+        Call<Homelist_model> homelist_modelCall = apiService.getDufultQutes();
+        homelist_modelCall.enqueue(new Callback<Homelist_model>() {
+            @Override
+            public void onResponse(Call<Homelist_model> call, retrofit2.Response<Homelist_model> response) {
+
+                mPager.setAdapter(new SlidingImage_Adapter(PreviewViewPager.this, response.body()));
+
+            }
+
+            @Override
+            public void onFailure(Call<Homelist_model> call, Throwable t) {
+
+            }
+        });
 
     }
-
-
 }
 

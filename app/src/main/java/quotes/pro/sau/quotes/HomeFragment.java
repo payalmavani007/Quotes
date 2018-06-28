@@ -31,11 +31,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +60,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         setHasOptionsMenu(true);
-        recyclar=view.findViewById(R.id.recyclar);
+        recyclar = view.findViewById(R.id.recyclar);
         if (ActivityCompat.checkSelfPermission(getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) getContext(),
@@ -71,7 +73,7 @@ public class HomeFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -99,7 +101,7 @@ public class HomeFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
-                                Manifest.permission.INTERNET},1);
+                                Manifest.permission.INTERNET}, 1);
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -115,35 +117,32 @@ public class HomeFragment extends Fragment {
             }
 
         }
-        recyclar.setLayoutManager(new GridLayoutManager(getContext(),1));
+        recyclar.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
-        Bundle b1=getArguments();
-        Bundle b=getArguments();
-
+        Bundle b1 = getArguments();
+        Bundle b = getArguments();
 
 
         if (b1 != null) {
             /* if (b.containsKey("name")){*/
-            final String str=b1.getString("name");
+            final String str = b1.getString("name");
             final String id = b.getString("id");
-            Toast.makeText(getContext(), "search string "+b1.get("name"), Toast.LENGTH_SHORT).show();
-            final String searchurl = "http://192.168.1.200/quotesmanagement/Search?search_bit=0&id=1"+"&text="+ str;
+            Toast.makeText(getContext(), "search string " + b1.get("name"), Toast.LENGTH_SHORT).show();
+            final String searchurl = "http://192.168.1.200/quotesmanagement/Search?search_bit=0&id=1" + "&text=" + str;
             StringRequest stringRequest1 = new StringRequest(Request.Method.POST, searchurl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
 
-                    Log.e("response ",response);
-                    Log.e("url ",searchurl);
+                    Log.e("response ", response);
+                    Log.e("url ", searchurl);
 
                     try {
-                        JSONObject jsonObject=new JSONObject(response);
-                        if (jsonObject.getInt("status")==0)
-                        {
-                            JSONArray dataAry=jsonObject.getJSONArray("data");
-                            recyclarAdapter=new RecyclarAdapter(getContext(),dataAry,id);
+                        JSONObject jsonObject = new JSONObject(response);
+                        if (jsonObject.getInt("status") == 0) {
+                            JSONArray dataAry = jsonObject.getJSONArray("data");
+                            recyclarAdapter = new RecyclarAdapter(getContext(), dataAry, id);
                             recyclar.setAdapter(recyclarAdapter);
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
                         }
 
@@ -160,7 +159,7 @@ public class HomeFragment extends Fragment {
             Volley.newRequestQueue(getContext()).add(stringRequest1);
 
 
-        }else {
+        } else {
 
 
             final String url = "http://192.168.1.200/quotesmanagement/list_quotes";
@@ -176,8 +175,7 @@ public class HomeFragment extends Fragment {
                             JSONArray dataAry = jsonObject.getJSONArray("data");
                             recyclarAdapter = new RecyclarAdapter(getContext(), dataAry);
                             recyclar.setAdapter(recyclarAdapter);
-                        } else
-                        {
+                        } else {
                             Toast.makeText(getContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
                         }
 
@@ -194,12 +192,11 @@ public class HomeFragment extends Fragment {
             Volley.newRequestQueue(getContext()).add(stringRequest);
         }
 
-        return  view;
+        return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
-    {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle("Home");
 
@@ -208,7 +205,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.settings, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
 
         if (!getContext().getSharedPreferences("status", MODE_PRIVATE).contains("id"))
             menu.clear();
