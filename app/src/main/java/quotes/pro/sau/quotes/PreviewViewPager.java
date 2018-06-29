@@ -52,7 +52,7 @@ public class PreviewViewPager extends AppCompatActivity {
     RelativeLayout layout;
     Context context;
     JSONArray array;
-    String SelectedId;
+    String SelectedId,quotes;
     RecyclerView recyclar;
     SlidingImage_Adapter adapter;
     private static final String TAG = "PreviewViewPager";
@@ -64,10 +64,11 @@ public class PreviewViewPager extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preview_viewpager);
         mPager = (ViewPager) findViewById(R.id.pager);
-
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         SelectedId = extras.getString("SelectedId");
+        quotes = extras.getString("quotes");
+
         Log.e(TAG, "iddddddddddd: "+ SelectedId);
         init();
     }
@@ -82,10 +83,9 @@ public class PreviewViewPager extends AppCompatActivity {
         Call<HomePreviewClass> homelist_modelCall = apiService.getDufultQutes(SelectedId);
         homelist_modelCall.enqueue(new Callback<HomePreviewClass>() {
             @Override
-            public void onResponse(Call<HomePreviewClass> call, retrofit2.Response<HomePreviewClass> response) {
-
+            public void onResponse(Call<HomePreviewClass> call, retrofit2.Response<HomePreviewClass> response)
+            {
                 mPager.setAdapter(new SlidingImage_Adapter(PreviewViewPager.this, response.body().getData()));
-
             }
 
             @Override

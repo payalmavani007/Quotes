@@ -16,34 +16,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
-import quotes.pro.sau.quotes.model.Homelist_model;
-
 class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
 
     Context context;
     JSONArray array;
     String id;
-    JSONObject o;
+
 
     private static final String TAG = "RecyclarAdapter";
-    public RecyclarAdapter(Context context, JSONArray array,String id)
+    public RecyclarAdapter(Context context, JSONArray array, String id)
     {
         this.context = context;
         this.array = array;
-
         this.id = id;
 
     }
 
 
-    public RecyclarAdapter(Context context, JSONArray array)
+    /*public RecyclarAdapter(Context context, JSONArray array, int id)
     {
         this.context = context;
         this.array = array;
-    }
+        this.id = id;
+    }*/
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,32 +48,17 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-
-
-        try {
-            o = array.getJSONObject(position);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        
         // final Homelist_model grid_model = grid_models.get(position);
         try {
-            Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/" + o.getString("quotes_image")).into(holder.imageView);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        // Picasso.get().load(grid_model.getImage_url()).into(holder.imageView);
-        Log.e(TAG, "this page run : ");
-        //  holder.textView.setText(o.getString("quotes"));
-
-        String upperString = null;
-        try {
-            upperString = o.getString("quotes").substring(0, 1).toUpperCase() + o.getString("quotes").substring(1);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        holder.textView.setText(upperString);
-        final String finalUpperString = upperString;
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            //Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/" + o.getString("quotes_image")).into(holder.imageView);
+            final JSONObject o = array.getJSONObject(position);
+            Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/"+o.getString("quotes_image"))
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_background)
+                    .into(holder.imageView);
+            holder.textView.setText(o.getString("quotes"));
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PreviewViewPager.class);
@@ -91,13 +71,16 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }*/
+
                     try {
-                        intent.putExtra("SelectedId", o.getString("id"));
-                        Log.e(TAG, "selctedid===: " +o.getString("id"));
+                        intent.putExtra("SelectedId",o.getString("id"));
+                        intent.putExtra("quotes",o.getString("quotes"));
+                        Log.e(TAG, "selctedid===: " +id);
+                        context.startActivity(intent);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    context.startActivity(intent);
 
                   /* Intent intent = new Intent(context, SwipeDeckActivity.class);
                     intent.putExtra("id", id);
@@ -105,6 +88,19 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
 */
                 }
             });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // Picasso.get().load(grid_model.getImage_url()).into(holder.imageView);
+        //  holder.textView.setText(o.getString("quotes"));
+
+        String upperString = null;
+        //upperString = o.getString("quotes").substring(0, 1).toUpperCase() + o.getString("quotes").substring(1);
+        // upperString = o.getString("quotes") + o.getString("quotes");
+
+        final String finalUpperString = upperString;
+
     }
 
     @Override
@@ -112,10 +108,6 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
         return array.length();
     }
 
-  /*  public void add(Homelist_model grid_model) {
-        grid_models.add(grid_model);
-    }
-*/
     class ViewHolder extends RecyclerView.ViewHolder
     {
         ImageView imageView;

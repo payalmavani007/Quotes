@@ -51,6 +51,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class HomeFragment extends Fragment {
     RecyclerView recyclar;
     RecyclarAdapter recyclarAdapter;
+    String id;
 
 
     @SuppressLint("NewApi")
@@ -123,8 +124,8 @@ public class HomeFragment extends Fragment {
         Bundle b = getArguments();
 
 
-        if (b1 != null) {
-            /* if (b.containsKey("name")){*/
+     /*   if (b1 != null) {
+            *//* if (b.containsKey("name")){*//*
             final String str = b1.getString("name");
             final String id = b.getString("id");
             Toast.makeText(getContext(), "search string " + b1.get("name"), Toast.LENGTH_SHORT).show();
@@ -159,7 +160,7 @@ public class HomeFragment extends Fragment {
             Volley.newRequestQueue(getContext()).add(stringRequest1);
 
 
-        } else {
+        } else {*/
 
 
             final String url = "http://192.168.1.200/quotesmanagement/list_quotes";
@@ -173,7 +174,7 @@ public class HomeFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.getInt("status") == 0) {
                             JSONArray dataAry = jsonObject.getJSONArray("data");
-                            recyclarAdapter = new RecyclarAdapter(getContext(), dataAry);
+                            recyclarAdapter = new RecyclarAdapter(getContext(), dataAry,id);
                             recyclar.setAdapter(recyclarAdapter);
                         } else {
                             Toast.makeText(getContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
@@ -190,7 +191,7 @@ public class HomeFragment extends Fragment {
                 }
             });
             Volley.newRequestQueue(getContext()).add(stringRequest);
-        }
+
 
         return view;
     }
