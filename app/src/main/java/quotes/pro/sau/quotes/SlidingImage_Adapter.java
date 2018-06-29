@@ -42,6 +42,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
     private LayoutInflater inflater;
     private Context context;
     List<HomePreviewClass.DataBean> data;
+    String position;
 
 
 
@@ -49,6 +50,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
         this.context = context;
         this.data = data;
         this.inflater = LayoutInflater.from(context);
+        this.position = position;
     }
 
     @Override

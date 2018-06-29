@@ -32,14 +32,6 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
 
     }
 
-
-    /*public RecyclarAdapter(Context context, JSONArray array, int id)
-    {
-        this.context = context;
-        this.array = array;
-        this.id = id;
-    }*/
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.list, parent, false);
@@ -51,7 +43,6 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
 
         // final Homelist_model grid_model = grid_models.get(position);
         try {
-            //Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/" + o.getString("quotes_image")).into(holder.imageView);
             final JSONObject o = array.getJSONObject(position);
             Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/"+o.getString("quotes_image"))
                     .placeholder(R.drawable.ic_launcher_background)
@@ -75,6 +66,7 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
                     try {
                         intent.putExtra("SelectedId",o.getString("id"));
                         intent.putExtra("quotes",o.getString("quotes"));
+
                         Log.e(TAG, "selctedid===: " +id);
                         context.startActivity(intent);
 

@@ -68,6 +68,7 @@ public class PreviewViewPager extends AppCompatActivity {
         assert extras != null;
         SelectedId = extras.getString("SelectedId");
         quotes = extras.getString("quotes");
+     
 
         Log.e(TAG, "iddddddddddd: "+ SelectedId);
         init();
