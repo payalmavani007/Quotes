@@ -48,7 +48,7 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        
+
         // final Homelist_model grid_model = grid_models.get(position);
         try {
             //Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/" + o.getString("quotes_image")).into(holder.imageView);
