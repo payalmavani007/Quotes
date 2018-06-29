@@ -1,6 +1,7 @@
 package quotes.pro.sau.quotes.retrofit;
 
-import quotes.pro.sau.quotes.model.Homelist_model;
+import quotes.pro.sau.quotes.model.Category_SwiipeModel;
+import quotes.pro.sau.quotes.model.HomePreviewClass;
 import quotes.pro.sau.quotes.model.SelectCategoryDataModel;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -14,7 +15,12 @@ public interface ApiInterface {
     @POST("selected_CategoryData")
     Call<SelectCategoryDataModel> getAllCategoryItem(@Field("category_id") String category_id);
 
-    @POST("list_quotes")
-    Call<Homelist_model> getDufultQutes();
+    @FormUrlEncoded
+    @POST("swipe_card")
+    Call<Category_SwiipeModel> getCategorySwipeList(@Field("category_id") String category_id, @Field("SelectedCatagoryId") String SelectedCatagoryId);
+
+    @FormUrlEncoded
+    @POST("home_swipe_card")
+    Call<HomePreviewClass> getDufultQutes(@Field("SelectedId") String SelectedId);
 
 }

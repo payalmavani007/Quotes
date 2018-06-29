@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -45,7 +46,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import quotes.pro.sau.quotes.model.SelectCategoryDataModel;
@@ -66,6 +69,7 @@ public class CategorySwipeActivity extends AppCompatActivity {
     RelativeLayout linearLayout;
     String position;
      Context context;
+    SwipeDeckAdapter adapter;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -77,8 +81,10 @@ public class CategorySwipeActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(R.color.colorAccent);  }
+
         category_swipe = findViewById(R.id.swipe_category);
         share_category = findViewById(R.id.share_category);
+        String value =getIntent().getStringExtra("catagoryId");
         category_swipe.setHardwareAccelerationEnabled(true);
         category_swipe.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
@@ -106,23 +112,29 @@ public class CategorySwipeActivity extends AppCompatActivity {
 
             }
         });
-
-        String url = "http://192.168.1.200/quotesmanagement/swipe_card?category_id=4&SelectedCatagoryId=17";
+        adapter = new SwipeDeckAdapter(context, new ArrayList<SelectCategoryDataModel>());
+        category_swipe.setAdapter(adapter);
+        String url = "http://192.168.1.200/quotesmanagement/swipe_card?category_id&="+value+ "SelectedCatagoryId="+ value;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 try {
-                    JSONObject resp  = new JSONObject(response);
-                    if (resp.getInt("status") == 0)
-                    {
-                        JSONArray data = resp.getJSONArray("data");
-                        JSONObject object = (JSONObject) data.get(0);
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    JSONArray array = jsonObject.getJSONArray("data");
+
+
+
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject o = (JSONObject) array.get(i);
                         SelectCategoryDataModel grid_model = new SelectCategoryDataModel();
-                        grid_model.setImage_url(object.getString("img_url"));
-                        SwipeDeckAdapter adapter=new SwipeDeckAdapter(getApplicationContext(),data,position);
-                        category_swipe.setAdapter(adapter);
+                        grid_model.setId(o.getInt("id"));
+                        grid_model.setImage_url(o.getString("img_url"));
+
+
+                        adapter.add(grid_model);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -138,6 +150,7 @@ public class CategorySwipeActivity extends AppCompatActivity {
 
 
     }
+
     public Bitmap getBitmap(RelativeLayout layout) {
         layout.setDrawingCacheEnabled(true);
         layout.buildDrawingCache();
@@ -194,40 +207,49 @@ public class CategorySwipeActivity extends AppCompatActivity {
         }
     }
     public class SwipeDeckAdapter extends BaseAdapter {
-        JSONArray data;
+        List<SelectCategoryDataModel.DataBean> data;
         String position;
         private Context context;
+        ArrayList selectCategoryDataModels;
 
-      /*  public SwipeDeckAdapter(List<SelectCategoryDataModel.DataBean> data, Context context, String position) {
+        public SwipeDeckAdapter(List<SelectCategoryDataModel.DataBean> data, Context context, String position)
+        {
             this.data = data;
             this.position = position;
             this.context = context;
         }
-*/
-        public SwipeDeckAdapter(Context context, JSONArray data, String position) {
+
+        public SwipeDeckAdapter(Context context, ArrayList<SelectCategoryDataModel> selectCategoryDataModels) {
             this.context = context;
-            this.data = data;
-            this.position = position;
+            this.selectCategoryDataModels =selectCategoryDataModels;
+
         }
+        public  void add(SelectCategoryDataModel grid_model)
+        {
+            selectCategoryDataModels.add(grid_model);
+        }
+
 
         @Override
         public int getCount() {
-            return data.length();
+            return selectCategoryDataModels.size();
         }
 
         @Override
-        public Object getItem(int position) {
-            return data.get(position);
+        public Object getItem(int position)
+        {
+            return selectCategoryDataModels.get(position);
         }
 
         @Override
-        public long getItemId(int position) {
+        public long getItemId(int position)
+        {
             return position;
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-
+            Toast.makeText(CategorySwipeActivity.this, "abcd", Toast.LENGTH_SHORT).show();
             View v = convertView;
             if (v == null) {
                 LayoutInflater inflater = getLayoutInflater();
@@ -236,26 +258,26 @@ public class CategorySwipeActivity extends AppCompatActivity {
             ImageView imageView = (ImageView) v.findViewById(R.id.img_preview);
 
             int name = data.get(position).getId();
+            Log.e(TAG, "name--->: " + name + "----->" + mCatagoryId);
 
             final TextView textView = (TextView) v.findViewById(R.id.sample_text);
 
-            if (name == Integer.parseInt(mCatagoryId)) {
                 textView.setText(data.get(position).getQuotes_name());
-            } else {
-                Log.e(TAG, "noid: ");
-            }
 
-            linearLayout =  v.findViewById(R.id.relative1);
+
+            linearLayout = (RelativeLayout) v.findViewById(R.id.relative1);
             linearLayout.setBackgroundColor(getMatColor("600"));
             download1 = v.findViewById(R.id.download1);
             copy = v.findViewById(R.id.copy);
             copy.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
                     ((ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE)).setText(textView.getText().toString());
                     Toast.makeText(CategorySwipeActivity.this, "Quote Copied.", Toast.LENGTH_SHORT).show();
                 }
             });
+
             download1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -268,48 +290,25 @@ public class CategorySwipeActivity extends AppCompatActivity {
             share_category.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
                     Bitmap bitmap1 = getBitmap(linearLayout);
                     saveChart(bitmap1, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(), data.get(position).getQuotes_image());
-
                     String fileName = data.get(position).getQuotes_image() + ".png";
                     String externalStorageDirectory = Environment.getExternalStorageDirectory().toString();
                     String myDir = externalStorageDirectory + "/Quotes/"; // the file will be in saved_images
                     Uri uri = Uri.parse("file:///" + myDir + fileName);
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                     shareIntent.setType("image/*");
                     Log.e("path", "sjfgsdfgas" + uri);
-
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Test Mail");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Quotes Images");
+                    shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Test Mail");
+                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Quotes Images");
                     shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
                     startActivity(Intent.createChooser(shareIntent, "Share Deal"));
                 }
             });
-            share_category.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    Bitmap bitmap1 = getBitmap(linearLayout);
-                    saveChart(bitmap1, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(), data.get(position).getQuotes_image());
-
-                    String fileName = data.get(position).getQuotes_image() + ".png";
-                    String externalStorageDirectory = Environment.getExternalStorageDirectory().toString();
-                    String myDir = externalStorageDirectory + "/Quotes/"; // the file will be in saved_images
-                    Uri uri = Uri.parse("file:///" + myDir + fileName);
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("image/*");
-                    Log.e("path", "sjfgsdfgas" + uri);
-
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Test Mail");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Quotes Images");
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                    startActivity(Intent.createChooser(shareIntent, "Share Deal"));
-                }
-            });
             return v;
         }
+
 
         private int getMatColor(String typeColor) {
 
@@ -325,4 +324,5 @@ public class CategorySwipeActivity extends AppCompatActivity {
             return returnColor;
         }
     }
+
 }

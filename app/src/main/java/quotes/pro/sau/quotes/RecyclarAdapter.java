@@ -77,7 +77,8 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
             e.printStackTrace();
         }
         holder.textView.setText(upperString);
-            holder.imageView.setOnClickListener(new View.OnClickListener() {
+        final String finalUpperString = upperString;
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PreviewViewPager.class);
@@ -90,6 +91,12 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }*/
+                    try {
+                        intent.putExtra("SelectedId", o.getString("id"));
+                        Log.e(TAG, "selctedid===: " +o.getString("id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     context.startActivity(intent);
 
                   /* Intent intent = new Intent(context, SwipeDeckActivity.class);

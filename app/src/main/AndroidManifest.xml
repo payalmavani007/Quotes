@@ -67,6 +67,8 @@
         </service>
         <!-- ./Firebase Notifications -->
         <activity android:name=".CategorySwipeActivity"></activity>
+        <activity android:name=".SwipeDeckActivitycopy"></activity>
+
     </application>
 
 </manifest>

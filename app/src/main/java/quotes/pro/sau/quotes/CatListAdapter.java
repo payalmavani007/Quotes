@@ -3,6 +3,7 @@ package quotes.pro.sau.quotes;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,10 +55,12 @@ class CatListAdapter extends RecyclerView.Adapter<CatListAdapter.ViewHolder> {
                         e.printStackTrace();
                     }
                     context.startActivity(intent);*/
-                    Intent intent = new Intent(context, CategorySwipeActivity.class);
+                    Intent intent = new Intent(context, SwipeDeckActivitycopy.class);
                     intent.putExtra("id", id);
+                    Log.e(TAG, "hiiiiiiiiiii: "+id );
                     try {
                         intent.putExtra("catagoryId", o.getString("id"));
+                        Log.e(TAG, "hiiiiiiiiiii: "+o.getString("id"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

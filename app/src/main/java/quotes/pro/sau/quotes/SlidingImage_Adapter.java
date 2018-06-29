@@ -26,8 +26,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import quotes.pro.sau.quotes.model.HomePreviewClass;
 import quotes.pro.sau.quotes.model.Homelist_model;
 
 import static java.sql.Types.NULL;
@@ -36,12 +38,14 @@ import static java.sql.Types.NULL;
 public class SlidingImage_Adapter extends PagerAdapter {
 
 
-    private Homelist_model data;
+
     private LayoutInflater inflater;
     private Context context;
+    List<HomePreviewClass.DataBean> data;
 
 
-    public SlidingImage_Adapter(Context context, Homelist_model data) {
+
+    public SlidingImage_Adapter(PreviewViewPager context, List<HomePreviewClass.DataBean> data) {
         this.context = context;
         this.data = data;
         this.inflater = LayoutInflater.from(context);
@@ -54,7 +58,8 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return data.getData().size();
+       return data.size();
+
     }
 
     @Override
@@ -71,8 +76,10 @@ public class SlidingImage_Adapter extends PagerAdapter {
                 .findViewById(R.id.image);
         final TextView txtQuteTex = (TextView) imageLayout
                 .findViewById(R.id.txtQuteTex);
-        Picasso.get().load(data.getImage_url() + data.getData().get(position).getQuotes_image()).into(imageView);
-        txtQuteTex.setText(data.getData().get(position).getQuotes());
+        Picasso.get().load(data.get(position) + data.get(position).getQuotes_image()).into(imageView);
+        //Picasso.get().load(data.getClass()+ data.get(position).getQuotes_image()).into(imageView);
+        txtQuteTex.setText(data.get(position).getQuotes_name());
+        //txtQuteTex.setText(data.get(position).getQuotes_image());
         view.addView(imageLayout, 0);
         download.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,7 +1,6 @@
 package quotes.pro.sau.quotes;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentManager;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -32,8 +31,6 @@ import android.widget.Toast;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.github.clans.fab.FloatingActionButton;
 
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -44,7 +41,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import quotes.pro.sau.quotes.model.SelectCategoryDataModel;
+import quotes.pro.sau.quotes.model.Category_SwiipeModel;
 import quotes.pro.sau.quotes.retrofit.ApiClient;
 import quotes.pro.sau.quotes.retrofit.ApiInterface;
 import retrofit2.Call;
@@ -54,14 +51,14 @@ import retrofit2.Response;
 import static java.sql.Types.NULL;
 
 
-public class SwipeDeckActivity extends AppCompatActivity {
+public class SwipeDeckActivitycopy extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     ApiInterface apiService;
     ArrayList<String> newData;
     String mImageUrl;
     ImageView imageViewShare;
     LinearLayout download1, copy;
-    String mCategoryId, position, mAuthorListId, mCatagoryId;
+    String  position, mAuthorListId, mCatagoryId,mId;
     RelativeLayout layout;
     FloatingActionButton fab;
     File folder;
@@ -72,7 +69,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
     RelativeLayout linearLayout;
     private SwipeDeck cardStack;
     private Context context = this;
-    private SwipeDeckAdapter adapter;
+    private SwipeDeckAdapterp adapter;
     private ArrayList<String> testData;
 
 
@@ -93,12 +90,14 @@ public class SwipeDeckActivity extends AppCompatActivity {
         cardStack.setHardwareAccelerationEnabled(true);
         apiService = ApiClient.getClient().create(ApiInterface.class);
         Bundle extras = getIntent().getExtras();
-        assert extras != null;
-        mCategoryId = extras.getString("id");
+       // assert extras != null;
+        mId = extras.getString("id");
+
         position = extras.getString("position");
-      //  mAuthorListId = extras.getString("AuthorListId");
-    //    mCatagoryId = extras.getString("catagoryId");
-        Log.e(TAG, "onCreate: " + extras.getString("AuthorListId"));
+
+       mCatagoryId = extras.getString("catagoryId");
+
+        Log.e(TAG, "testing: " +mId+"---->"+mCatagoryId );
         cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
             public void cardSwipedLeft(int position) {
@@ -114,18 +113,18 @@ public class SwipeDeckActivity extends AppCompatActivity {
             public void cardsDepleted() {
                 Log.i("MainActivity", "no more cards");
                 //Toast.makeText(context, "No More Crads.", Toast.LENGTH_SHORT).show();
-                Call<SelectCategoryDataModel> modelCall = apiService.getAllCategoryItem(mCategoryId);
-                modelCall.enqueue(new Callback<SelectCategoryDataModel>() {
+                Call<Category_SwiipeModel> modelCall = apiService.getCategorySwipeList(mId,mCatagoryId);
+                modelCall.enqueue(new Callback<Category_SwiipeModel>() {
                     @Override
-                    public void onResponse(Call<SelectCategoryDataModel> call, Response<SelectCategoryDataModel> response) {
+                    public void onResponse(Call<Category_SwiipeModel> call, Response<Category_SwiipeModel> response) {
                         //  mImageUrl = response.body().getImage_url();
-                        SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context, position);
+                        SwipeDeckAdapterp adapter = new SwipeDeckAdapterp(response.body().getData(), context, position);
                         cardStack.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
 
                     @Override
-                    public void onFailure(Call<SelectCategoryDataModel> call, Throwable t) {
+                    public void onFailure(Call<Category_SwiipeModel> call, Throwable t) {
 
                     }
                 });
@@ -144,18 +143,18 @@ public class SwipeDeckActivity extends AppCompatActivity {
 
         });
 
-        Call<SelectCategoryDataModel> modelCall = apiService.getAllCategoryItem(mCategoryId);
-        modelCall.enqueue(new Callback<SelectCategoryDataModel>() {
+        Call<Category_SwiipeModel> modelCall = apiService.getCategorySwipeList(mId,mCatagoryId);
+        modelCall.enqueue(new Callback<Category_SwiipeModel>() {
             @Override
-            public void onResponse(Call<SelectCategoryDataModel> call, Response<SelectCategoryDataModel> response) {
+            public void onResponse(Call<Category_SwiipeModel> call, Response<Category_SwiipeModel> response) {
                 //   mImageUrl = response.body().getImage_url();
-                SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context, position);
+                SwipeDeckAdapterp adapter = new SwipeDeckAdapterp(response.body().getData(), context, position);
                 cardStack.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<SelectCategoryDataModel> call, Throwable t) {
+            public void onFailure(Call<Category_SwiipeModel> call, Throwable t) {
 
             }
         });
@@ -237,12 +236,14 @@ public class SwipeDeckActivity extends AppCompatActivity {
         }
     }
 
-    public class SwipeDeckAdapter extends BaseAdapter {
-        List<SelectCategoryDataModel.DataBean> data;
+    public class SwipeDeckAdapterp extends BaseAdapter {
+        List<Category_SwiipeModel.DataBean> data;
         String position;
         private Context context;
 
-        public SwipeDeckAdapter(List<SelectCategoryDataModel.DataBean> data, Context context, String position) {
+
+
+        public SwipeDeckAdapterp(List<Category_SwiipeModel.DataBean> data, Context context, String position) {
             this.data = data;
             this.position = position;
             this.context = context;
@@ -273,8 +274,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
             }
             ImageView imageView = (ImageView) v.findViewById(R.id.img_preview);
 
-            int name = data.get(position).getId();
-            Log.e(TAG, "name--->: " + name + "----->" + mCatagoryId);
+            String name = data.get(position).getQuotes_name();
 
             final TextView textView = (TextView) v.findViewById(R.id.sample_text);
             textView.setText(data.get(position).getQuotes_name());
@@ -288,7 +288,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     ((ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE)).setText(textView.getText().toString());
-                    Toast.makeText(SwipeDeckActivity.this, "Quote Copied.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SwipeDeckActivitycopy.this, "Quote Copied.", Toast.LENGTH_SHORT).show();
                 }
             });
             download1.setOnClickListener(new View.OnClickListener() {
@@ -296,7 +296,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     bitmap = getBitmap(linearLayout);
                     saveChart(bitmap, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(), data.get(position).getQuotes_image());
-                    Toast.makeText(SwipeDeckActivity.this, " Download Successfull.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SwipeDeckActivitycopy.this, " Download Successfull.", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -317,11 +317,11 @@ public class SwipeDeckActivity extends AppCompatActivity {
                     String externalStorageDirectory = Environment.getExternalStorageDirectory().toString();
                     String myDir = externalStorageDirectory + "/Quotes/"; // the file will be in saved_images
                     Uri uri = Uri.parse("file:///" + myDir + fileName);
-                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("image/*");
                     Log.e("path", "sjfgsdfgas" + uri);
-                    shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Test Mail");
-                    shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Quotes Images");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Test Mail");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Quotes Images");
                     shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
                     startActivity(Intent.createChooser(shareIntent, "Share Deal"));
                 }

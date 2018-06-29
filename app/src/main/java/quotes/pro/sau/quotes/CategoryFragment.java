@@ -95,7 +95,6 @@ public class CategoryFragment extends Fragment {
 
         if (id == R.id.logout) {
             //       editor.clear().apply();
-            Log.e("sdbnfvids", "vfszdjkhv");
             SharedPreferences preferences = getContext().getSharedPreferences("status", MODE_PRIVATE);
 
             SharedPreferences.Editor editor = preferences.edit();
