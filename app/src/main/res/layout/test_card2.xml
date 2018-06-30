@@ -9,7 +9,6 @@
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:layout_marginTop="70dp"
-
     android:gravity="center_horizontal"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="5dp">
@@ -95,10 +94,9 @@
                     android:text="Download"
                     android:textColor="@color/colorwhite"
                     android:textSize="18dp" />
-            </LinearLayout>
 
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
 
 </android.support.v7.widget.CardView>

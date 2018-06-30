@@ -28,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -36,11 +35,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.google.gson.JsonArray;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -50,9 +47,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import quotes.pro.sau.quotes.model.SelectCategoryDataModel;
-
 import static java.sql.Types.NULL;
 
 public class CategorySwipeActivity extends AppCompatActivity {
@@ -112,6 +107,7 @@ public class CategorySwipeActivity extends AppCompatActivity {
 
             }
         });
+
         adapter = new SwipeDeckAdapter(context, new ArrayList<SelectCategoryDataModel>());
         category_swipe.setAdapter(adapter);
         String url = "http://192.168.1.200/quotesmanagement/swipe_card?category_id&="+value+ "SelectedCatagoryId="+ value;
@@ -125,14 +121,11 @@ public class CategorySwipeActivity extends AppCompatActivity {
 
                     JSONArray array = jsonObject.getJSONArray("data");
 
-
-
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject o = (JSONObject) array.get(i);
                         SelectCategoryDataModel grid_model = new SelectCategoryDataModel();
                         grid_model.setId(o.getInt("id"));
                         grid_model.setImage_url(o.getString("img_url"));
-
 
                         adapter.add(grid_model);
                     }
@@ -265,7 +258,7 @@ public class CategorySwipeActivity extends AppCompatActivity {
                 textView.setText(data.get(position).getQuotes_name());
 
 
-            linearLayout = (RelativeLayout) v.findViewById(R.id.relative1);
+            linearLayout =  v.findViewById(R.id.relative1);
             linearLayout.setBackgroundColor(getMatColor("600"));
             download1 = v.findViewById(R.id.download1);
             copy = v.findViewById(R.id.copy);
