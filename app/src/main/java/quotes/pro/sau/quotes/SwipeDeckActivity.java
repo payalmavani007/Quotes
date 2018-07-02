@@ -305,8 +305,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
 
             final TextView textView = (TextView) v.findViewById(R.id.sample_text);
             textView.setText(data.get(position).getQuotes_name());
-            //      textView.setText(data.get(position).getQuotes_name());
-            //    ImageView imgDownload = (ImageView) v.findViewById(R.id.download);
+
             linearLayout = (RelativeLayout) v.findViewById(R.id.relative1);
             linearLayout.setBackgroundColor(getMatColor("600"));
             download1 = v.findViewById(R.id.download1);
