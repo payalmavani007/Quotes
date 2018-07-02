@@ -13,13 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Locale;
 
 import quotes.pro.sau.quotes.model.HomePreviewClass;
-import quotes.pro.sau.quotes.model.Homelist_model;
+import quotes.pro.sau.quotes.util.Config;
 
 import static java.sql.Types.NULL;
 
@@ -39,13 +39,12 @@ import static java.sql.Types.NULL;
 public class SlidingImage_Adapter extends PagerAdapter {
 
 
-
     private LayoutInflater inflater;
     private Context context;
     List<HomePreviewClass.DataBean> data;
     String position;
 
-
+    private static final String TAG = "SlidingImage_Adapter";
 
     public SlidingImage_Adapter(PreviewViewPager context, List<HomePreviewClass.DataBean> data) {
         this.context = context;
@@ -61,7 +60,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-       return data.size();
+        return data.size();
 
     }
 
@@ -79,16 +78,15 @@ public class SlidingImage_Adapter extends PagerAdapter {
                 .findViewById(R.id.image);
         final TextView txtQuteTex = (TextView) imageLayout
                 .findViewById(R.id.txtQuteTex);
-       // Picasso.get().load(data.getImage_url() + data.getData().get(position).getQuotes_image()).into(imageView);
-       // Picasso.get().load(data.get(position) + data.get(position).getQuotes_image()).into(imageView);
-       // Picasso.get().load(data.getClass()+ data.get(position).getQuotes_image()).into(imageView);
 
-       // Picasso.get().load(data.get(position).getQuotes_image()).into(imageView);
-       // Picasso.get().load(data.getClass()+data.get(position).getQuotes_image()).into(imageView);
-        Picasso.get().load(data.get(position)+data.get(position).getQuotes_image()).into(imageView);
 
+        Glide.with(context).load(Config.URL + data.get(position).getQuotes_image())
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+        Log.e(TAG, "instantiateItem: " + data.get(position) + data.get(position).getQuotes_image());
         txtQuteTex.setText(data.get(position).getQuotes_name());
-        //txtQuteTex.setText(data.get(position).getQuotes_image());
         view.addView(imageLayout, 0);
         download.setOnClickListener(new View.OnClickListener() {
             @Override
