@@ -43,7 +43,7 @@ class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
         holder.cardView.setCardBackgroundColor(Color.TRANSPARENT);
         try {
             final JSONObject o = dataAry.getJSONObject(position);
-            Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/" + o.getString("category_image")).into(holder.imageView);
+            Picasso.get().load("http://rajviinfotech.in/quotes/public/uploads/" + o.getString("category_image")).into(holder.imageView);
             holder.textView.setText(o.getString("category_name"));
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

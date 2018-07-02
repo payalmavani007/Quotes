@@ -111,7 +111,7 @@ public class CategorySwipeActivity extends AppCompatActivity {
 
         adapter = new SwipeDeckAdapter(context, new ArrayList<SelectCategoryDataModel>());
         category_swipe.setAdapter(adapter);
-        String url = "http://192.168.1.200/quotesmanagement/swipe_card?category_id&="+value+ "SelectedCatagoryId="+ value;
+        String url = "http://rajviinfotech.in/quotes/swipe_card?category_id&="+value+ "SelectedCatagoryId="+ value;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -155,7 +155,7 @@ public class CategorySwipeActivity extends AppCompatActivity {
 
     private void saveChart(Bitmap getbitmap, float height, float width, String name) {
 
-        Log.e(TAG, "name: " + " http://192.168.1.200/quotesmanagement/public/uploads/" + name);
+        Log.e(TAG, "name: " + "http://rajviinfotech.in/quotes/public/uploads/" + name);
         root = Environment.getExternalStorageDirectory().toString();
         folder = new File(root + "/Quotes");
         boolean success = false;

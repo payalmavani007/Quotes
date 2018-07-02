@@ -189,7 +189,7 @@ public class SwipeDeckActivitycopy extends AppCompatActivity {
 
     private void saveChart(Bitmap getbitmap, float height, float width, String name) {
 
-        Log.e(TAG, "name: " + " http://192.168.1.200/quotesmanagement/public/uploads/" + name);
+        Log.e(TAG, "name: " + " http://rajviinfotech.in/quotes/public/uploads/" + name);
         root = Environment.getExternalStorageDirectory().toString();
         folder = new File(root + "/Quotes");
         boolean success = false;

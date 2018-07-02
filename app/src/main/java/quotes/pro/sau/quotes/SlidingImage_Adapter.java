@@ -17,10 +17,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,12 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import quotes.pro.sau.quotes.model.HomePreviewClass;
 import quotes.pro.sau.quotes.util.Config;
-
 import static java.sql.Types.NULL;
-
 
 public class SlidingImage_Adapter extends PagerAdapter {
 
@@ -46,7 +41,8 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     private static final String TAG = "SlidingImage_Adapter";
 
-    public SlidingImage_Adapter(PreviewViewPager context, List<HomePreviewClass.DataBean> data) {
+    public SlidingImage_Adapter(PreviewViewPager context, List<HomePreviewClass.DataBean> data)
+    {
         this.context = context;
         this.data = data;
         this.inflater = LayoutInflater.from(context);
@@ -82,16 +78,6 @@ public class SlidingImage_Adapter extends PagerAdapter {
         final TextView txtQuteTex = (TextView) imageLayout
                 .findViewById(R.id.txtQuteTex);
 
-<<<<<<< HEAD
-       // Picasso.get().load(data.getImage_url() + data.getData().get(position).getQuotes_image()).into(imageView);
-       // Picasso.get().load(data.get(position) + data.get(position).getQuotes_image()).into(imageView);
-       // Picasso.get().load(data.getClass()+ data.get(position).getQuotes_image()).into(imageView);
-       //Picasso.get().load(data.get(position).getQuotes_image()).into(imageView);
-       // Picasso.get().load(data.getClass()+data.get(position).getQuotes_image()).into(imageView);
-
-        Picasso.get().load(data.get(position)+data.get(position).getQuotes_image()).into(imageView);
-=======
->>>>>>> 5d640a0a3953f271e9c729c5158b9a803662265d
 
         Glide.with(context).load(Config.URL + data.get(position).getQuotes_image())
                 .thumbnail(0.5f)

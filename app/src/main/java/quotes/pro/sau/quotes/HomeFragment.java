@@ -163,7 +163,7 @@ public class HomeFragment extends Fragment {
         } else {*/
 
 
-            final String url = "http://192.168.1.200/quotesmanagement/list_quotes";
+            final String url = "http://rajviinfotech.in/quotes/list_quotes";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {

@@ -51,7 +51,7 @@ public class CategoryListFragment extends Fragment {
         header_text_categorylist.setText(category_name);
         Log.e(TAG, "onCreateView: "+ category_name);
 
-        String url = "http://192.168.1.200/quotesmanagement/selected_CategoryData?category_id=" + id;
+        String url = "http://rajviinfotech.in/quotes/selected_CategoryData?category_id=" + id;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

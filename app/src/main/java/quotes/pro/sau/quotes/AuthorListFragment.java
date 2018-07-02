@@ -47,7 +47,7 @@ public class AuthorListFragment extends Fragment {
         assert b1 != null;
          quotes_name=b1.getString("author_name");
         textView.setText(quotes_name);
-        String url="http://192.168.1.200/quotesmanagement/selected_AuthorData?author_id="+id ;
+        String url="http://rajviinfotech.in/quotes/selected_AuthorData?author_id="+id ;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

@@ -42,7 +42,7 @@ public class AuthorFragment extends Fragment {
         category_recycler=view.findViewById(R.id.author_list);
         setHasOptionsMenu(true);
         category_recycler.setLayoutManager(new GridLayoutManager(getContext(),3));
-        String url="http://192.168.1.200/quotesmanagement/getdata_author";
+        String url="http://rajviinfotech.in/quotes/getdata_author";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

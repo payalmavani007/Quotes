@@ -299,7 +299,7 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
                 SharedPreferences preferences = BottomNavigation.this.getSharedPreferences("status", MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 if (preferences.contains("email") && preferences.contains("password")) {
-                    String url = "http://192.168.1.200/quotesmanagement/user_login?email=" + preferences.getString("email", "") + "&password=" + preferences.getString("password", "");
+                    String url = "http://rajviinfotech.in/quotes/user_login?email=" + preferences.getString("email", "") + "&password=" + preferences.getString("password", "");
 
 
                         /* hud = KProgressHUD.create(BottomNavigation.this)

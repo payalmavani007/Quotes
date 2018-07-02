@@ -44,7 +44,7 @@ class RecyclarAdapter extends RecyclerView.Adapter<RecyclarAdapter.ViewHolder> {
         // final Homelist_model grid_model = grid_models.get(position);
         try {
             final JSONObject o = array.getJSONObject(position);
-            Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/"+o.getString("quotes_image"))
+            Picasso.get().load("http://rajviinfotech.in/quotes/public/uploads/"+o.getString("quotes_image"))
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_background)
                     .into(holder.imageView);

@@ -93,7 +93,7 @@ public class RegisterFragment extends Fragment {
                     Toast.makeText(getContext(), "Enter Valid E-mail.", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    String url = "http://192.168.1.200/quotesmanagement/form_register?"+
+                    String url = "http://rajviinfotech.in/quotes/form_register?"+
                             "firstname="+ fname.getText().toString()+
                             "&lastname="+lname.getText().toString()+
                             "&email="+email.getText().toString()+

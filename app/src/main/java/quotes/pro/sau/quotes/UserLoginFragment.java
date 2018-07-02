@@ -87,7 +87,7 @@ public class UserLoginFragment extends Fragment {
                }
 
                else {
-                   String url = "http://192.168.1.200/quotesmanagement/user_login?"+"email="+edt_email.getText().toString()+
+                   String url = "http://rajviinfotech.in/quotes/user_login?"+"email="+edt_email.getText().toString()+
                            "&password="+edt_password.getText().toString();
                    final KProgressHUD hud = KProgressHUD.create(getContext())
                            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)

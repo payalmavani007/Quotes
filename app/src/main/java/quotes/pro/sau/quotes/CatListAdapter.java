@@ -39,7 +39,7 @@ class CatListAdapter extends RecyclerView.Adapter<CatListAdapter.ViewHolder> {
 
         try {
             final JSONObject o = array.getJSONObject(position);
-            Picasso.get().load("http://192.168.1.200/quotesmanagement/public/uploads/" + o.getString("quotes_image")).into(holder.imageView);
+            Picasso.get().load("http://rajviinfotech.in/quotes/public/uploads/" + o.getString("quotes_image")).into(holder.imageView);
             holder.textView.setText(o.getString("quotes_name"));
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

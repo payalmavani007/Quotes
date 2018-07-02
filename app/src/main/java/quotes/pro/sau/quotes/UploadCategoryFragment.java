@@ -116,7 +116,7 @@ public class UploadCategoryFragment extends Fragment {
                 lv = dialog.findViewById(R.id.lv);
                 dialog.setCancelable(true);
 
-                String url = "http://192.168.1.200/quotesmanagement/getdata_categories";
+                String url = "http://rajviinfotech.in/quotes/getdata_categories";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -206,7 +206,7 @@ public class UploadCategoryFragment extends Fragment {
                 else
                     {
 
-                        String url = "http://192.168.1.200/quotesmanagement/upload_category?category_id="
+                        String url = "http://rajviinfotech.in/quotes/upload_category?category_id="
                                 +txt_id.getText().toString()+
                                 "&quotes="+editText.getText().toString();
 

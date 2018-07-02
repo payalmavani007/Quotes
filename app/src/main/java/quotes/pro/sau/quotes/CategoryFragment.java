@@ -40,7 +40,7 @@ public class CategoryFragment extends Fragment {
         setHasOptionsMenu(true);
         category_recycler.setLayoutManager(new GridLayoutManager(getContext(),3));
 
-        String url="http://192.168.1.200/quotesmanagement/getdata_categories";
+        String url="http://rajviinfotech.in/quotes/getdata_categories";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

@@ -13,6 +13,6 @@ public class Config {
     public static final int NOTIFICATION_ID_BIG_IMAGE = 101;
 
     public static final String SHARED_PREF = "ah_firebase";
-    public static final String URL = "http://192.168.1.200/quotesmanagement/public/uploads/";
+    public static final String URL = "http://rajviinfotech.in/quotes/public/uploads/";
 
 }
