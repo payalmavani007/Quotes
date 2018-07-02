@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,8 +79,14 @@ public class SlidingImage_Adapter extends PagerAdapter {
                 .findViewById(R.id.image);
         final TextView txtQuteTex = (TextView) imageLayout
                 .findViewById(R.id.txtQuteTex);
-        Picasso.get().load(data.get(position) + data.get(position).getQuotes_image()).into(imageView);
-        //Picasso.get().load(data.getClass()+ data.get(position).getQuotes_image()).into(imageView);
+       // Picasso.get().load(data.getImage_url() + data.getData().get(position).getQuotes_image()).into(imageView);
+       // Picasso.get().load(data.get(position) + data.get(position).getQuotes_image()).into(imageView);
+       // Picasso.get().load(data.getClass()+ data.get(position).getQuotes_image()).into(imageView);
+
+       // Picasso.get().load(data.get(position).getQuotes_image()).into(imageView);
+       // Picasso.get().load(data.getClass()+data.get(position).getQuotes_image()).into(imageView);
+        Picasso.get().load(data.get(position)+data.get(position).getQuotes_image()).into(imageView);
+
         txtQuteTex.setText(data.get(position).getQuotes_name());
         //txtQuteTex.setText(data.get(position).getQuotes_image());
         view.addView(imageLayout, 0);

@@ -66,9 +66,9 @@
             </intent-filter>
         </service>
         <!-- ./Firebase Notifications -->
-        <activity android:name=".CategorySwipeActivity"></activity>
-        <activity android:name=".SwipeDeckActivitycopy"></activity>
-
+        <activity android:name=".CategorySwipeActivity" />
+        <activity android:name=".SwipeDeckActivitycopy" />
+        <activity android:name=".SwipeDeckActivitycopyAuthor"></activity>
     </application>
 
 </manifest>

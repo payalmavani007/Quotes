@@ -52,8 +52,9 @@ public class PreviewViewPager extends AppCompatActivity {
     RelativeLayout layout;
     Context context;
     JSONArray array;
-    String SelectedId,quotes;
+    String SelectedId,quotes,image;
     RecyclerView recyclar;
+
     SlidingImage_Adapter adapter;
     private static final String TAG = "PreviewViewPager";
     private static ViewPager mPager;
@@ -68,7 +69,6 @@ public class PreviewViewPager extends AppCompatActivity {
         assert extras != null;
         SelectedId = extras.getString("SelectedId");
         quotes = extras.getString("quotes");
-
 
         Log.e(TAG, "iddddddddddd: "+ SelectedId);
         init();

@@ -77,11 +77,12 @@ public class CategorySwipeActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(R.color.colorAccent);  }
 
-        category_swipe = findViewById(R.id.swipe_category);
-        share_category = findViewById(R.id.share_category);
-        String value =getIntent().getStringExtra("catagoryId");
-        category_swipe.setHardwareAccelerationEnabled(true);
-        category_swipe.setEventCallback(new SwipeDeck.SwipeEventCallback() {
+            category_swipe = findViewById(R.id.swipe_category);
+            share_category = findViewById(R.id.share_category);
+            String value =getIntent().getStringExtra("catagoryId");
+            category_swipe.setHardwareAccelerationEnabled(true);
+
+            category_swipe.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
             public void cardSwipedLeft(int position) {
 
@@ -151,6 +152,7 @@ public class CategorySwipeActivity extends AppCompatActivity {
         layout.setDrawingCacheEnabled(false);
         return bmp;
     }
+
     private void saveChart(Bitmap getbitmap, float height, float width, String name) {
 
         Log.e(TAG, "name: " + " http://192.168.1.200/quotesmanagement/public/uploads/" + name);
@@ -200,6 +202,7 @@ public class CategorySwipeActivity extends AppCompatActivity {
         }
     }
     public class SwipeDeckAdapter extends BaseAdapter {
+
         List<SelectCategoryDataModel.DataBean> data;
         String position;
         private Context context;
@@ -217,6 +220,7 @@ public class CategorySwipeActivity extends AppCompatActivity {
             this.selectCategoryDataModels =selectCategoryDataModels;
 
         }
+
         public  void add(SelectCategoryDataModel grid_model)
         {
             selectCategoryDataModels.add(grid_model);

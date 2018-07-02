@@ -61,7 +61,7 @@ public class SwipeDeckActivity extends AppCompatActivity {
     String mImageUrl;
     ImageView imageViewShare;
     LinearLayout download1, copy;
-    String mCategoryId, position, mAuthorListId, mCatagoryId;
+    String mCategoryId, position, mAuthorListId,id, mCatagoryId;
     RelativeLayout layout;
     FloatingActionButton fab;
     File folder;
@@ -95,8 +95,9 @@ public class SwipeDeckActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         mCategoryId = extras.getString("id");
+        id = extras.getString("id");
         position = extras.getString("position");
-      //  mAuthorListId = extras.getString("AuthorListId");
+       mAuthorListId = extras.getString("AuthorListId");
     //    mCatagoryId = extras.getString("catagoryId");
         Log.e(TAG, "onCreate: " + extras.getString("AuthorListId"));
         cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
@@ -144,6 +145,10 @@ public class SwipeDeckActivity extends AppCompatActivity {
 
         });
 
+
+        //------------------CategoryId-----------------------//
+
+
         Call<SelectCategoryDataModel> modelCall = apiService.getAllCategoryItem(mCategoryId);
         modelCall.enqueue(new Callback<SelectCategoryDataModel>() {
             @Override
@@ -159,6 +164,28 @@ public class SwipeDeckActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+        //------------------Authorid-----------------------//
+/*
+        Call<SelectAuthorDataModel> authormodelCall = apiService.getAllAuthorItem(mAuthorListId);
+        modelCall.enqueue(new Callback<SelectCategoryDataModel>() {
+            @Override
+            public void onResponse(Call<SelectCategoryDataModel> call, Response<SelectCategoryDataModel> response) {
+                //   mImageUrl = response.body().getImage_url();
+                SwipeDeckAdapter adapter = new SwipeDeckAdapter(response.body().getData(), context, position);
+                cardStack.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<SelectCategoryDataModel> call, Throwable t) {
+
+            }
+        });*/
+
+
     }
 
     /* private void startShare() {

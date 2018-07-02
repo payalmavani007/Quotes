@@ -58,7 +58,7 @@ public class SwipeDeckActivitycopy extends AppCompatActivity {
     String mImageUrl;
     ImageView imageViewShare;
     LinearLayout download1, copy;
-    String  position, mAuthorListId, mCatagoryId,mId;
+    String  position, mCatagoryId,mId;
     RelativeLayout layout;
     FloatingActionButton fab;
     File folder;
@@ -324,6 +324,7 @@ public class SwipeDeckActivitycopy extends AppCompatActivity {
                     shareIntent.putExtra(Intent.EXTRA_TEXT, "Quotes Images");
                     shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
                     startActivity(Intent.createChooser(shareIntent, "Share Deal"));
+
                 }
             });
             return v;

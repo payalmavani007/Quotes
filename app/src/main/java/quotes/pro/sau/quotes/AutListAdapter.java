@@ -57,16 +57,18 @@ class AutListAdapter extends RecyclerView.Adapter<AutListAdapter.ViewHolder> {
                     }
                     context.startActivity(intent);*/
 
-                    Intent intent = new Intent(context, SwipeDeckActivity.class);
-                    intent.putExtra("id", id);
-                    intent.putExtra("quotes_name", quotes_name);
-                    intent.putExtra("pos",position);
+
                     try {
+                        Intent intent = new Intent(context, SwipeDeckActivitycopyAuthor.class);
+                        intent.putExtra("id", id );
+                        intent.putExtra("quotes_name", quotes_name);
+                        intent.putExtra("pos",position);
                         intent.putExtra("AuthorListId",o.getString("id"));
+                        context.startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    context.startActivity(intent);
+
                 }
             });
         } catch (JSONException e) {
