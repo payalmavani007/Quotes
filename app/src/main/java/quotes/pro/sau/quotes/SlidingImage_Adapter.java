@@ -57,6 +57,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+
     }
 
     @Override
@@ -75,16 +76,19 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
         final ImageView download = (ImageView) imageLayout
                 .findViewById(R.id.download);
+
         final ImageView imageView = (ImageView) imageLayout
                 .findViewById(R.id.image);
+
         final TextView txtQuteTex = (TextView) imageLayout
                 .findViewById(R.id.txtQuteTex);
+
        // Picasso.get().load(data.getImage_url() + data.getData().get(position).getQuotes_image()).into(imageView);
        // Picasso.get().load(data.get(position) + data.get(position).getQuotes_image()).into(imageView);
        // Picasso.get().load(data.getClass()+ data.get(position).getQuotes_image()).into(imageView);
-
-       // Picasso.get().load(data.get(position).getQuotes_image()).into(imageView);
+       //Picasso.get().load(data.get(position).getQuotes_image()).into(imageView);
        // Picasso.get().load(data.getClass()+data.get(position).getQuotes_image()).into(imageView);
+
         Picasso.get().load(data.get(position)+data.get(position).getQuotes_image()).into(imageView);
 
         txtQuteTex.setText(data.get(position).getQuotes_name());
