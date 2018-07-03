@@ -160,25 +160,6 @@ public class SwipeDeckActivitycopy extends AppCompatActivity {
         });
     }
 
-    /* private void startShare() {
-         Bitmap bitmap = viewToBitmap(imageView, imageView.getWidth(),imageView.getHeight());
-         Intent intent = new Intent(Intent.ACTION_SEND);
-         intent.setType("image/jpge");
-         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-         bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-
-         File file = new File(Environment.getExternalStorageDirectory()+ "/Quotes" +  "Abc.png");
-         try {
-             file.createNewFile();
-             FileOutputStream fileOutputStream = new FileOutputStream(file);
-             fileOutputStream.write(byteArrayOutputStream.toByteArray());
-             intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///internalstorage/quotes/Abc.png"));
-             startActivity(Intent.createChooser(intent,"Share Image"));
-         } catch (IOException e) {
-             e.printStackTrace();
-         }
-     }
- */
     public Bitmap getBitmap(RelativeLayout layout) {
         layout.setDrawingCacheEnabled(true);
         layout.buildDrawingCache();
@@ -304,12 +285,6 @@ public class SwipeDeckActivitycopy extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-               /* Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                Uri screenshotUri = Uri.parse(MediaStore.Images.Media.EXTERNAL_CONTENT_URI + "/Quotes" );
-
-                sharingIntent.setType("image/jpeg");
-                sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                startActivity(Intent.createChooser(sharingIntent, "Share image using"));*/
 
                     Bitmap bitmap1 = getBitmap(linearLayout);
                     saveChart(bitmap1, linearLayout.getMeasuredHeight(), linearLayout.getMeasuredWidth(), data.get(position).getQuotes_image());
